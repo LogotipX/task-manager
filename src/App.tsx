@@ -4,8 +4,8 @@ import "./App.scss";
 
 function App() {
   return (
-    <div className="App">
-      <i className="text-3xl font-bold underline">React</i>
+    <div className="App min-h-screen bg-slate-900">
+      <header className="w-screen h-12 bg-slate-700 shadow-md"></header>
     </div>
   );
 }
