@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import IssueBox from "./IssueBox";
 
-function TasksContainer() {
-  const [width, setWidth] = useState(window.innerWidth);
+type TProps = {
+  className?: string;
+  containerName?: string;
+};
 
-  function getWindowWidth() {
-    setWidth(window.innerWidth);
-  }
+export default function TasksContainer(props: TProps) {
+  const classNames =
+    "task-container p-2 text-sm xs:w-screen w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-100 rounded-sm";
 
-  useEffect(() => {
-    window.addEventListener("resize", getWindowWidth);
-
-    return () => window.removeEventListener("resize", getWindowWidth);
-  }, []);
+  const [visibility, setVisibility] = useState("invisible");
 
   return (
-    <div className="text-slate-100 bg-slate-800 sm:w-1/3 border-2 border-dashed border-slate-100 rounded-sm">
-      {width}
+    <div
+      onMouseEnter={() => setVisibility("visible")}
+      onMouseLeave={() => setVisibility("invisible")}
+      className={`${props.className} ${classNames}`}
+    >
+      <div className="container__name uppercase">{props.containerName}</div>
+      <IssueBox />
+      <div className={`button__create-issue ${visibility}`}>Create issue</div>
     </div>
   );
 }
-
-export default TasksContainer;
