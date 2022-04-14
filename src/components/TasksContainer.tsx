@@ -43,12 +43,13 @@ export default function TasksContainer(props: TProps) {
         <div className="container__name uppercase pl-2">
           {props.containerName}
         </div>
-        {IssueArr.map((i) => (
+        {IssueArr.map((i, idx) => (
           <IssueBox
             type={i.type}
             title={i.title}
             text={i.text}
             className={i.className}
+            key={`${idx}-${i.type}-${i.title}`}
           />
         ))}
         <div
