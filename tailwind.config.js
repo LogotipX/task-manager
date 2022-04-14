@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
-      xs: { min: "320px", max: "449px" },
+      xs: { min: "320px", max: "499px" },
       // => @media (min-width: 320px and max-width: 449px) { ... }
 
       sm: { min: "500px", max: "767px" },
@@ -20,7 +20,19 @@ module.exports = {
 
       "2xl": { min: "1536px" },
       // => @media (min-width: 1536px) { ... }
+
+      "not-xs": { min: "500px" },
+      // => @media (min-width: 500px) { ... }
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+    },
+    function ({ addVariant }) {
+      addVariant("last-child", "& > :last-child");
+      // addVariant("last-child-hover", "& > last-child:hover");
+    },
+  ],
 };

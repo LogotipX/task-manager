@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.scss";
 import TasksContainer from "./components/TasksContainer";
 
@@ -21,7 +21,8 @@ function App() {
       <header className="w-screen text-slate-100 h-12 bg-slate-700 shadow-md">
         {width}
       </header>
-      <div className="flex flex-row flex-wrap">
+      <div className="flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0">
+        <TasksContainer className="m-1" containerName="to do" />
         <TasksContainer className="m-1" containerName="to do" />
       </div>
     </div>
