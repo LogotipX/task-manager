@@ -13,14 +13,20 @@ export default function TasksContainer(props: TProps) {
   const [visibility, setVisibility] = useState("invisible");
 
   return (
-    <div
-      onMouseEnter={() => setVisibility("visible")}
-      onMouseLeave={() => setVisibility("invisible")}
-      className={`${props.className} ${classNames}`}
-    >
-      <div className="container__name uppercase">{props.containerName}</div>
-      <IssueBox />
-      <div className={`button__create-issue ${visibility}`}>Create issue</div>
-    </div>
+    <>
+      <div
+        onMouseEnter={() => setVisibility("visible")}
+        onMouseLeave={() => setVisibility("invisible")}
+        className={`${props.className} ${classNames}`}
+      >
+        <div className="container__name uppercase">{props.containerName}</div>
+        <IssueBox />
+        <div
+          className={`button__create-issue ${visibility} font-bold hover:bg-slate-600 active:bg-slate-700 cursor-pointer rounded-sm p-1`}
+        >
+          + Create issue
+        </div>
+      </div>
+    </>
   );
 }
