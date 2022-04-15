@@ -78,7 +78,7 @@ function App() {
       <header className="w-screen text-slate-100 h-12 bg-slate-700 shadow-md">
         {width}
       </header>
-      <div className="flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0">
+      <div className="h-[480px] flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0">
         <TasksContainer
           className="m-1"
           containerName="to do"
