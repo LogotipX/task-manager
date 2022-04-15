@@ -1,38 +1,14 @@
 import React, { useState } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import IssueBox from "./IssueBox";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 type TProps = {
   className?: string;
   containerName?: string;
+  children?: React.ReactNode;
 };
 
 export default function TasksContainer(props: TProps) {
   const [visibility, setVisibility] = useState("invisible");
-
-  const IssueArr = [
-    {
-      type: "Task",
-      title: "IssueBox",
-      text: "Refactor IssueBox component: need add functional and interpase",
-      // priority: "some priority",
-      className: "my-2",
-    },
-    {
-      type: "Task",
-      title: "IssueBox",
-      text: "Refactor IssueBox component: need add functional and interpase",
-      // priority: "some priority",
-      className: "my-2",
-    },
-    {
-      type: "Task",
-      title: "IssueBox",
-      text: "Refactor IssueBox component: need add functional and interpase",
-      // priority: "some priority",
-      className: "my-2",
-    },
-  ];
 
   return (
     <>
@@ -48,29 +24,7 @@ export default function TasksContainer(props: TProps) {
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {IssueArr.map((i, idx) => (
-                  <Draggable
-                    key={`${idx}-${i.type}-${i.title}`}
-                    draggableId={`${idx}-${i.type}-${i.title}`}
-                    index={idx}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <IssueBox
-                          type={i.type}
-                          title={i.title}
-                          text={i.text}
-                          className={i.className}
-                          // key={`${idx}-${i.type}-${i.title}`}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                {props.children}
               </div>
             )}
           </Droppable>
