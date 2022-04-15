@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 type TProps = {
   className?: string;
   containerName?: string;
   children?: React.ReactNode;
+  dragEndHandler?(result: DropResult): void;
 };
 
-export default function TasksContainer(props: TProps) {
+export default function TasksContainer(props: TProps | any) {
   const [visibility, setVisibility] = useState("invisible");
 
   return (
     <>
-      <DragDropContext onDragEnd={() => console.log("onDragEnd")}>
+      <DragDropContext onDragEnd={props.dragEndHandler}>
         <div
           onMouseEnter={() => setVisibility("visible")}
           onMouseLeave={() => setVisibility("invisible")}
