@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 // import logo from "./logo.svg";
 import "./App.scss";
+
+import { DropResult } from "react-beautiful-dnd";
+
 import DraggableIssueBox from "./components/DraggableIssueBox";
 import TasksContainer from "./components/TasksContainer";
-
 import getIssues from "./api/api";
 
 type issueArr = {
@@ -27,7 +29,10 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("resize", getWindowWidth);
-    getIssues.then((res: any) => setIssueArr(res));
+    getIssues.then((res: issueArr) => {
+      console.log("res", res);
+      setIssueArr(res);
+    });
 
     return () => window.removeEventListener("resize", getWindowWidth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -41,7 +46,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issueArr]);
 
-  function dragEndHandler(result: any) {
+  function dragEndHandler(result: DropResult): void {
     console.log("result drag:", result);
     // dropped outside the list
     if (!result.destination) {

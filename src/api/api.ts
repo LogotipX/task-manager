@@ -4,7 +4,7 @@ type issueArr = {
   text: string;
 }[];
 
-const getIssues = new Promise((resolve, reject): void => {
+const getIssues: Promise<issueArr> = new Promise((resolve, reject): void => {
   setTimeout(() => {
     resolve(issueArrFromApi);
   }, 850);
