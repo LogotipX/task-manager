@@ -39,7 +39,9 @@ export default function TasksContainer(props: TProps | any) {
         </div>
         <div className="button__container w-full pb-1 mt-2">
           <div
-            className={`button__create-issue ${visibility} px-1 py-2 mb-1 font-bold hover:bg-slate-600 active:bg-slate-700 cursor-pointer rounded-sm`}
+            className={`button__create-issue ${
+              props.children ? visibility : "visible"
+            } px-1 py-2 mb-1 font-bold hover:bg-slate-600 active:bg-slate-700 cursor-pointer rounded-sm`}
           >
             + Create issue
           </div>
