@@ -4,6 +4,8 @@ import "./App.scss";
 import DraggableIssueBox from "./components/DraggableIssueBox";
 import TasksContainer from "./components/TasksContainer";
 
+import issueArrFromApi from "./api/api";
+
 type issueArr = {
   type: string;
   title: string;
@@ -17,29 +19,7 @@ function App() {
     React.createRef();
   const [tasksContainerHeight, setTasksContainerHeight] = useState(0);
 
-  const [issueArr, setIssueArr] = useState([
-    {
-      type: "Task",
-      title: "IssueBox1",
-      text: "Refactor IssueBox component: need add functional and interpase",
-      // priority: "some priority",
-      className: "my-2",
-    },
-    {
-      type: "Task",
-      title: "IssueBox2",
-      text: "Refactor IssueBox component: need add functional and interpase",
-      // priority: "some priority",
-      className: "my-2",
-    },
-    {
-      type: "Task",
-      title: "IssueBox3",
-      text: "Refactor IssueBox component: need add functional and interpase",
-      // priority: "some priority",
-      className: "my-2",
-    },
-  ]);
+  const [issueArr, setIssueArr] = useState<issueArr>([]);
 
   function getWindowWidth() {
     setWidth(window.innerWidth);
@@ -47,15 +27,18 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("resize", getWindowWidth);
+
+    setIssueArr(issueArrFromApi);
+
     if (tasksContainerRefHeight.current?.scrollHeight) {
-      setTasksContainerHeight(
-        tasksContainerRefHeight.current?.scrollHeight + 45
-      );
+      console.log(tasksContainerHeight);
+
+      setTasksContainerHeight(tasksContainerRefHeight.current?.scrollHeight);
     }
 
     return () => window.removeEventListener("resize", getWindowWidth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [issueArr]);
 
   function dragEndHandler(result: any) {
     console.log("result drag:", result);
@@ -88,25 +71,28 @@ function App() {
         {width}
       </header>
       <div
-        className={`container-for-TasksContainers px-3 text-slate-50 border-b-2 flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0`}
+        className={`min-h-fit container-for-TasksContainers not-xs:px-1.5 text-slate-50 border-b-2 flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0`}
       >
         <div
+          className="task-container min-h-full"
           style={
-            tasksContainerHeight
-              ? { height: `${tasksContainerHeight}px` }
-              : { height: "100%" }
+            // tasksContainerHeight
+            // ?
+            { height: `${tasksContainerHeight}px` }
+            // : { height: "calc(100%+36px)" }
           }
           ref={tasksContainerRefHeight}
-          className="task-container"
         >
           <TasksContainer containerName="to do" dragEndHandler={dragEndHandler}>
-            {issueArr.map((issue, idx) => (
-              <DraggableIssueBox
-                idx={idx}
-                issue={{ ...issue }}
-                key={`${idx}-${issue.type}-${issue.title}`}
-              />
-            ))}
+            {issueArr.length
+              ? issueArr.map((issue, idx) => (
+                  <DraggableIssueBox
+                    idx={idx}
+                    issue={{ ...issue }}
+                    key={`${idx}-${issue.type}-${issue.title}`}
+                  />
+                ))
+              : null}
           </TasksContainer>
         </div>
       </div>
