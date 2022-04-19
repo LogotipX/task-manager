@@ -27,16 +27,17 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("resize", getWindowWidth);
-
     getIssues.then((res: any) => setIssueArr(res));
 
+    return () => window.removeEventListener("resize", getWindowWidth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (tasksContainerRefHeight.current?.scrollHeight) {
       console.log(tasksContainerHeight);
-
       setTasksContainerHeight(tasksContainerRefHeight.current?.scrollHeight);
     }
-
-    return () => window.removeEventListener("resize", getWindowWidth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issueArr]);
 
