@@ -9,7 +9,6 @@ type TProps = {
     type: string;
     title: string;
     text: string;
-    // className?: string;
   };
 };
 

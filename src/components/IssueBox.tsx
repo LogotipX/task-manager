@@ -5,7 +5,6 @@ type TProps = {
   title: string;
   text: string;
   // priority: string;
-  // className?: string;
 };
 
 function IssueBox(props: TProps) {

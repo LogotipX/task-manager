@@ -75,12 +75,7 @@ function App() {
       >
         <div
           className="task-container min-h-full"
-          style={
-            // tasksContainerHeight
-            // ?
-            { height: `${tasksContainerHeight}px` }
-            // : { height: "calc(100%+36px)" }
-          }
+          style={{ height: `${tasksContainerHeight}px` }}
           ref={tasksContainerRefHeight}
         >
           <TasksContainer containerName="to do" dragEndHandler={dragEndHandler}>
