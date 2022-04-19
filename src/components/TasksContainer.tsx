@@ -21,24 +21,37 @@ export default function TasksContainer(props: TProps | any) {
         <div className="container__name uppercase pl-2">
           {props.containerName}
         </div>
-        <div className="droppable-container pb-12">
+        <div className="droppable-container">
+          {/* <div className="droppable-container pb-12"> */}
           <DragDropContext onDragEnd={props.dragEndHandler}>
             <Droppable droppableId="droppable">
               {(provided, snapshot) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
+                <div
+                  className="child:mt-2"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
                   {props.children}
+                  {provided.placeholder}
                 </div>
               )}
             </Droppable>
           </DragDropContext>
         </div>
-        <div className="button__container w-full absolute left-0 bottom-1 px-1">
+        <div className="button__container w-full pb-1 mt-2">
           <div
             className={`button__create-issue ${visibility} px-1 py-2 mb-1 font-bold hover:bg-slate-600 active:bg-slate-700 cursor-pointer rounded-sm`}
           >
             + Create issue
           </div>
         </div>
+        {/* <div className="button__container w-full absolute left-0 bottom-1 px-1">
+          <div
+            className={`button__create-issue ${visibility} px-1 py-2 mb-1 font-bold hover:bg-slate-600 active:bg-slate-700 cursor-pointer rounded-sm`}
+          >
+            + Create issue
+          </div>
+        </div> */}
       </div>
     </>
   );

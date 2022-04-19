@@ -4,13 +4,13 @@ import "./App.scss";
 import DraggableIssueBox from "./components/DraggableIssueBox";
 import TasksContainer from "./components/TasksContainer";
 
-import issueArrFromApi from "./api/api";
+import getIssues from "./api/api";
 
 type issueArr = {
   type: string;
   title: string;
   text: string;
-  className: string;
+  // className: string;
 }[];
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     window.addEventListener("resize", getWindowWidth);
 
-    setIssueArr(issueArrFromApi);
+    getIssues.then((res: any) => setIssueArr(res));
 
     if (tasksContainerRefHeight.current?.scrollHeight) {
       console.log(tasksContainerHeight);

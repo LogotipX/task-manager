@@ -9,7 +9,7 @@ type TProps = {
     type: string;
     title: string;
     text: string;
-    className?: string;
+    // className?: string;
   };
 };
 
@@ -28,7 +28,6 @@ export default function DraggableIssueBox(props: TProps) {
             type={props.issue.type}
             title={props.issue.title}
             text={props.issue.text}
-            className={props.issue.className}
           />
         </div>
       )}
