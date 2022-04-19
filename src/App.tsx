@@ -13,10 +13,8 @@ type issueArr = {
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
-  // let containerRefHeight: React.RefObject<HTMLInputElement> = React.createRef();
   let tasksContainerRefHeight: React.RefObject<HTMLInputElement> =
     React.createRef();
-  // const [containerHeight, setContainerHeight] = useState(0);
   const [tasksContainerHeight, setTasksContainerHeight] = useState(0);
 
   const [issueArr, setIssueArr] = useState([
@@ -54,21 +52,10 @@ function App() {
         tasksContainerRefHeight.current?.scrollHeight + 45
       );
     }
-    // if (tasksContainerHeight) {
-    //   setContainerHeight(tasksContainerHeight + 45);
-    // }
 
     return () => window.removeEventListener("resize", getWindowWidth);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // function dragStartHandler(result: any) {
-  //   console.log("drag start result", containerRefHeight.current?.scrollHeight);
-  //   // if (containerRefHeight.current?.scrollHeight) {
-  //   //   setContainerHeight(containerRefHeight.current?.scrollHeight);
-  //   // }
-  //   console.log(containerHeight);
-  // }
 
   function dragEndHandler(result: any) {
     console.log("result drag:", result);
@@ -84,10 +71,6 @@ function App() {
     );
 
     setIssueArr(reorderedList);
-
-    // if (containerRefHeight.current?.scrollHeight) {
-    //   setContainerHeight(containerRefHeight.current?.scrollHeight + 280);
-    // }
   }
 
   function reorder(list: issueArr, startIdx: number, endIdx: number) {
@@ -105,12 +88,6 @@ function App() {
         {width}
       </header>
       <div
-        // ref={containerRefHeight}
-        // style={
-        //   containerHeight
-        //     ? { height: `${containerHeight}px` }
-        //     : { height: "100%" }
-        // }
         className={`container-for-TasksContainers px-3 text-slate-50 border-b-2 flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0`}
       >
         <div
@@ -122,34 +99,7 @@ function App() {
           ref={tasksContainerRefHeight}
           className="task-container"
         >
-          <TasksContainer
-            containerName="to do"
-            dragEndHandler={dragEndHandler}
-            // dragStartHandler={dragStartHandler}
-          >
-            {issueArr.map((issue, idx) => (
-              <DraggableIssueBox
-                idx={idx}
-                issue={{ ...issue }}
-                key={`${idx}-${issue.type}-${issue.title}`}
-              />
-            ))}
-          </TasksContainer>
-        </div>
-        <div
-          style={
-            tasksContainerHeight
-              ? { height: `${tasksContainerHeight}px` }
-              : { height: "100%" }
-          }
-          ref={tasksContainerRefHeight}
-          className="task-container"
-        >
-          <TasksContainer
-            containerName="to do"
-            dragEndHandler={dragEndHandler}
-            // dragStartHandler={dragStartHandler}
-          >
+          <TasksContainer containerName="to do" dragEndHandler={dragEndHandler}>
             {issueArr.map((issue, idx) => (
               <DraggableIssueBox
                 idx={idx}

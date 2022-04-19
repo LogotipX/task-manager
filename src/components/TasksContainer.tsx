@@ -6,7 +6,6 @@ type TProps = {
   containerName?: string;
   children?: React.ReactNode;
   dragEndHandler?(result: DropResult): void;
-  dragStartHandler?(result: DropResult): void;
 };
 
 export default function TasksContainer(props: TProps | any) {
@@ -22,10 +21,7 @@ export default function TasksContainer(props: TProps | any) {
         <div className="container__name uppercase pl-2">
           {props.containerName}
         </div>
-        <DragDropContext
-          onDragEnd={props.dragEndHandler}
-          onDragStart={props.dragStartHandler}
-        >
+        <DragDropContext onDragEnd={props.dragEndHandler}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
