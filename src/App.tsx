@@ -49,18 +49,18 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    let refHeight = tasksContainerRefHeight.current?.scrollHeight;
-    console.log("tasksContainerHeight:", tasksContainerHeight);
-    console.log("refHeight:", refHeight);
-    // if (refHeight && tasksContainerHeight < refHeight) {
-    if (refHeight) {
-      console.log(tasksContainerHeight);
-      console.log("set to", refHeight);
-      setTasksContainerHeight(refHeight);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tasksContainerArr]);
+  // useEffect(() => {
+  //   let refHeight = tasksContainerRefHeight.current?.scrollHeight;
+  //   console.log("tasksContainerHeight:", tasksContainerHeight);
+  //   console.log("refHeight:", refHeight);
+  //   // if (refHeight && tasksContainerHeight < refHeight) {
+  //   if (refHeight) {
+  //     console.log(tasksContainerHeight);
+  //     console.log("set to", refHeight);
+  //     setTasksContainerHeight(refHeight);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [tasksContainerArr]);
 
   function dragEndHandler(result: DropResult): void {
     console.log("result drag:", result);
@@ -150,7 +150,7 @@ function App() {
                 ({ taskContainerName, issues }, droppableIdx) => (
                   <div
                     className="task-container min-h-full"
-                    style={{ height: `${tasksContainerHeight}px` }}
+                    // style={{ height: `${tasksContainerHeight}px` }}
                     ref={tasksContainerRefHeight}
                     key={`${taskContainerName}-${droppableIdx}`}
                   >
