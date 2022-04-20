@@ -23,20 +23,20 @@ export default function TasksContainer(props: TProps | any) {
           {props.containerName}
         </div>
         <div className="droppable-container">
-          <DragDropContext onDragEnd={props.dragEndHandler}>
-            <Droppable droppableId={String(props.droppableId)}>
-              {(provided, snapshot) => (
-                <div
-                  className="child:mt-2"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {props.children}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          {/* <DragDropContext onDragEnd={props.dragEndHandler}> */}
+          <Droppable droppableId={String(props.droppableId)}>
+            {(provided, snapshot) => (
+              <div
+                className="child:mt-2"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {props.children}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+          {/* </DragDropContext> */}
         </div>
         <div className="button__container w-full pb-1 mt-2">
           <div

@@ -4,6 +4,7 @@ import { Draggable } from "react-beautiful-dnd";
 import IssueBox from "./IssueBox";
 
 type TProps = {
+  draggableId: string;
   idx: number;
   issue: {
     type: string;
@@ -14,10 +15,10 @@ type TProps = {
 
 export default function DraggableIssueBox(props: TProps) {
   // const id = `${props.idx}-${props.issue.type}-${props.issue.title}`;
-  const id = `${props.idx}`;
 
   return (
-    <Draggable draggableId={id} index={props.idx}>
+    // <Draggable draggableId={props.idx} index={props.idx}>
+    <Draggable draggableId={props.draggableId} index={props.idx}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}

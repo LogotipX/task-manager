@@ -35,6 +35,12 @@ const issueArrFromApi: issueArr = [
         text: "Refactor IssueBox component: need add functional and interpase",
         // priority: "some priority",
       },
+      // {
+      //   type: "Task",
+      //   title: "IssueBox4",
+      //   text: "Refactor IssueBox component: need add functional and interpase",
+      //   // priority: "some priority",
+      // },
     ],
   },
   {
