@@ -77,24 +77,34 @@ function App() {
     let idxTo: number = Number(result.destination.droppableId);
     console.log("container idx", idxFrom);
 
-    const reorderedList: issueArr = reorder(
-      reorderedTasksContainer[idxFrom].issues,
-      result.source.index,
-      result.destination.index,
-      idxFrom,
-      idxTo
-    );
+    if (idxFrom === idxTo) {
+      const reorderedList: issueArr = reorderLocalTasks(
+        reorderedTasksContainer[idxFrom].issues,
+        result.source.index,
+        result.destination.index
+      );
 
-    reorderedTasksContainer[idxFrom].issues = reorderedList.slice(
-      0,
-      reorderedList.length
-    );
+      reorderedTasksContainer[idxFrom].issues = reorderedList.slice(
+        0,
+        reorderedList.length
+      );
 
-    setIssueArr(reorderedList);
-    setTasksContainerArr(reorderedTasksContainer);
+      setIssueArr(reorderedList);
+      setTasksContainerArr(reorderedTasksContainer);
+    } else {
+      const reorderedList: tasksContainerArr = reorderGlobalTasks(
+        reorderedTasksContainer,
+        result.source.index,
+        result.destination.index,
+        idxFrom,
+        idxTo
+      );
+
+      setTasksContainerArr(reorderedList);
+    }
   }
 
-  function reorder(
+  function reorderLocalTasks(
     list: issueArr,
     dragElIdxFrom: number,
     dragElIdxTo: number,
@@ -105,6 +115,23 @@ function App() {
     const [removed] = reorderedList.splice(dragElIdxFrom, 1);
 
     reorderedList.splice(dragElIdxTo, 0, removed);
+
+    return reorderedList;
+  }
+
+  function reorderGlobalTasks(
+    list: tasksContainerArr,
+    fromDragElIdx: number,
+    toDragElIdx: number,
+    fromContainer: number,
+    toContainer: number
+  ) {
+    const reorderedList = Array.from(list);
+    const [removed] = reorderedList[fromContainer].issues.splice(
+      fromDragElIdx,
+      1
+    );
+    reorderedList[toContainer].issues.splice(toDragElIdx, 0, removed);
 
     return reorderedList;
   }
