@@ -13,7 +13,8 @@ type TProps = {
 };
 
 export default function DraggableIssueBox(props: TProps) {
-  const id = `${props.idx}-${props.issue.type}-${props.issue.title}`;
+  // const id = `${props.idx}-${props.issue.type}-${props.issue.title}`;
+  const id = `${props.idx}`;
 
   return (
     <Draggable draggableId={id} index={props.idx}>

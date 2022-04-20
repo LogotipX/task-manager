@@ -1,7 +1,10 @@
 type issueArr = {
-  type: string;
-  title: string;
-  text: string;
+  taskContainerName: string;
+  issues: {
+    type: string;
+    title: string;
+    text: string;
+  }[];
 }[];
 
 const getIssues: Promise<issueArr> = new Promise((resolve, reject): void => {
@@ -12,22 +15,50 @@ const getIssues: Promise<issueArr> = new Promise((resolve, reject): void => {
 
 const issueArrFromApi: issueArr = [
   {
-    type: "Task",
-    title: "IssueBox1",
-    text: "Refactor IssueBox component: need add functional and interpase",
-    // priority: "some priority",
+    taskContainerName: "to do",
+    issues: [
+      {
+        type: "Task",
+        title: "IssueBox1",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+      {
+        type: "Task",
+        title: "IssueBox2",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+      {
+        type: "Task",
+        title: "IssueBox3",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+    ],
   },
   {
-    type: "Task",
-    title: "IssueBox2",
-    text: "Refactor IssueBox component: need add functional and interpase",
-    // priority: "some priority",
-  },
-  {
-    type: "Task",
-    title: "IssueBox3",
-    text: "Refactor IssueBox component: need add functional and interpase",
-    // priority: "some priority",
+    taskContainerName: "to do",
+    issues: [
+      {
+        type: "Task",
+        title: "IssueBox1",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+      {
+        type: "Task",
+        title: "IssueBox2",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+      {
+        type: "Task",
+        title: "IssueBox3",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+    ],
   },
 ];
 
