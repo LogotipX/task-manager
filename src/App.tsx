@@ -27,9 +27,7 @@ function App() {
   const [width, setWidth] = useState(window.innerWidth);
   let tasksContainerRefHeight: React.RefObject<HTMLInputElement> =
     React.createRef();
-  const [tasksContainerHeight, setTasksContainerHeight] = useState(0);
 
-  const [issueArr, setIssueArr] = useState<issueArr>([]);
   const [tasksContainerArr, setTasksContainerArr] = useState<tasksContainerArr>(
     []
   );
@@ -41,7 +39,6 @@ function App() {
   useEffect(() => {
     window.addEventListener("resize", getWindowWidth);
     getIssues.then((res: tasksContainerArr) => {
-      console.log("res", res);
       setTasksContainerArr(res);
     });
 
@@ -49,21 +46,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   let refHeight = tasksContainerRefHeight.current?.scrollHeight;
-  //   console.log("tasksContainerHeight:", tasksContainerHeight);
-  //   console.log("refHeight:", refHeight);
-  //   // if (refHeight && tasksContainerHeight < refHeight) {
-  //   if (refHeight) {
-  //     console.log(tasksContainerHeight);
-  //     console.log("set to", refHeight);
-  //     setTasksContainerHeight(refHeight);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [tasksContainerArr]);
-
   function dragEndHandler(result: DropResult): void {
-    console.log("result drag:", result);
     // dropped outside the list
     if (!result.destination) {
       return;
@@ -75,7 +58,6 @@ function App() {
     );
     let idxFrom: number = Number(result.source.droppableId);
     let idxTo: number = Number(result.destination.droppableId);
-    console.log("container idx", idxFrom);
 
     if (idxFrom === idxTo) {
       const reorderedList: issueArr = reorderLocalTasks(
@@ -89,7 +71,6 @@ function App() {
         reorderedList.length
       );
 
-      setIssueArr(reorderedList);
       setTasksContainerArr(reorderedTasksContainer);
     } else {
       const reorderedList: tasksContainerArr = reorderGlobalTasks(
@@ -150,7 +131,6 @@ function App() {
                 ({ taskContainerName, issues }, droppableIdx) => (
                   <div
                     className="task-container min-h-full"
-                    // style={{ height: `${tasksContainerHeight}px` }}
                     ref={tasksContainerRefHeight}
                     key={`${taskContainerName}-${droppableIdx}`}
                   >
@@ -174,17 +154,6 @@ function App() {
                 )
               )
             : null}
-          {/* <TasksContainer containerName="to do" dragEndHandler={dragEndHandler}>
-            {issueArr.length
-              ? issueArr.map((issue, idx) => (
-                <DraggableIssueBox
-                idx={idx}
-                issue={{ ...issue }}
-                key={`${idx}-${issue.type}-${issue.title}`}
-                />
-                ))
-                : null}
-              </TasksContainer> */}
         </DragDropContext>
       </div>
     </div>

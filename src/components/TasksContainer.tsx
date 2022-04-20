@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { Droppable, DropResult } from "react-beautiful-dnd";
 
 type TProps = {
   className?: string;
@@ -20,7 +20,6 @@ export default function TasksContainer(props: TProps | any) {
         className={`${props.className} task-container relative p-1 text-sm h-full xs:w-screen min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
       >
         <div className="droppable-container h-full">
-          {/* <DragDropContext onDragEnd={props.dragEndHandler}> */}
           <Droppable droppableId={String(props.droppableId)}>
             {(provided, snapshot) => (
               <div
@@ -45,7 +44,6 @@ export default function TasksContainer(props: TProps | any) {
               </div>
             )}
           </Droppable>
-          {/* </DragDropContext> */}
         </div>
       </div>
     </>
