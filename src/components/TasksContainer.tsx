@@ -19,7 +19,10 @@ export default function TasksContainer(props: TProps | any) {
         onMouseLeave={() => setVisibility("invisible")}
         className={`${props.className} task-container relative p-1 text-sm h-full xs:w-screen min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
       >
-        <div className="droppable-container h-full">
+        <div className="container__name uppercase pl-2 mt-2">
+          {props.containerName}
+        </div>
+        <div className="droppable-container">
           <Droppable droppableId={String(props.droppableId)}>
             {(provided, snapshot) => (
               <div
@@ -27,9 +30,6 @@ export default function TasksContainer(props: TProps | any) {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                <div className="container__name uppercase pl-2">
-                  {props.containerName}
-                </div>
                 {props.children}
                 {provided.placeholder}
                 <div className="button__container w-full pb-1 mt-2">

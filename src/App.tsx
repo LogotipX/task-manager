@@ -123,7 +123,7 @@ function App() {
         {width}
       </header>
       <div
-        className={`min-h-fit container-for-TasksContainers not-xs:px-1.5 text-slate-50 border-b-2 flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0`}
+        className={`min-h-fit container-for-TasksContainers not-xs:px-1.5 text-slate-50 border-b-2 border-slate-400 flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0`}
       >
         <DragDropContext onDragEnd={dragEndHandler}>
           {tasksContainerArr.length
