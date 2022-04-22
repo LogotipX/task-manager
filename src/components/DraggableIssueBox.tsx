@@ -11,11 +11,16 @@ type TProps = {
     title: string;
     text: string;
   };
+  isDragContainer: boolean;
 };
 
 export default function DraggableIssueBox(props: TProps) {
   return (
-    <Draggable draggableId={props.draggableId} index={props.idx}>
+    <Draggable
+      draggableId={props.draggableId}
+      index={props.idx}
+      isDragDisabled={props.isDragContainer}
+    >
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
