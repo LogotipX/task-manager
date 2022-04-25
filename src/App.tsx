@@ -105,6 +105,19 @@ function App() {
     return reorderedList;
   }
 
+  function btnCreateIssue(containerId: number) {
+    if (typeof containerId !== "number") return;
+
+    const containerArr = Array.from(tasksContainerArr);
+    containerArr[containerId].issues.push({
+      type: "Created",
+      title: "Created IssueBox1",
+      text: "Refactor IssueBox component: need add functional and interpase",
+      // priority: "some priority",
+    });
+    setTimeout(() => setTasksContainerArr(containerArr), 0);
+  }
+
   return (
     <div className="App min-h-screen overflow-hidden bg-slate-900">
       <header className="w-full text-slate-100 h-12 bg-slate-700 shadow-md">
@@ -138,6 +151,7 @@ function App() {
                             containerName={taskContainerName}
                             droppableId={droppableIdx}
                             tasksDragEndHandler={dragEndHandler}
+                            createIssue={btnCreateIssue}
                           >
                             {issues.length
                               ? issues.map((issue, idx) => (

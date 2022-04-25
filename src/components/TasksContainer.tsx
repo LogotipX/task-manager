@@ -8,6 +8,7 @@ type TProps = {
   droppableId: number;
   tasksDragEndHandler?(result: DropResult): void;
   containersDragEndHandler?(result: DropResult): void;
+  createIssue(containerId: any): any;
 };
 
 export default function TasksContainer(props: TProps) {
@@ -52,6 +53,7 @@ export default function TasksContainer(props: TProps) {
                   {provided.placeholder}
                   <div className="button__container w-full pb-1 mt-2">
                     <div
+                      onClick={() => props.createIssue(props.droppableId)}
                       className={`button__create-issue ${
                         props.children ? visibility : "visible"
                       } xs:visible px-1 py-2 mb-1 font-bold hover:bg-slate-600 active:bg-slate-700 cursor-pointer rounded-sm`}
