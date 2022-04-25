@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 // import logo from "./logo.svg";
 import "./App.scss";
 
-import {
-  DragDropContext,
-  DragStart,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 import DraggableIssueBox from "./components/DraggableIssueBox";
 import TasksContainer from "./components/TasksContainer";
@@ -44,10 +39,8 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function tasksDragEndHandler(result: DropResult): void {
-    console.log("tasksDragEndHandler");
+  function dragEndHandler(result: DropResult): void {
     // dropped outside the list
-    console.log("dropResult", result);
     if (!result.destination) {
       return;
     }
@@ -105,28 +98,19 @@ function App() {
     fromDragElIdx: number,
     toDragElIdx: number
   ) {
-    console.log("source", fromDragElIdx);
-    console.log("destination", toDragElIdx);
-
     const reorderedList = Array.from(list);
     const [removed] = reorderedList.splice(fromDragElIdx, 1);
     reorderedList.splice(toDragElIdx, 0, removed);
 
-    console.log("reordered containers", reorderedList);
     return reorderedList;
   }
 
-  function containersDragEndHandler(DropRes: DropResult) {
-    console.log("container is drag");
-    tasksDragEndHandler(DropRes);
-  }
-
   return (
-    <div className="App min-h-screen bg-slate-900">
+    <div className="App min-h-screen overflow-hidden bg-slate-900">
       <header className="w-full text-slate-100 h-12 bg-slate-700 shadow-md">
         {width}
       </header>
-      <DragDropContext onDragEnd={containersDragEndHandler}>
+      <DragDropContext onDragEnd={dragEndHandler}>
         <Droppable
           droppableId={"containersDropzone"}
           direction="horizontal"
@@ -136,38 +120,42 @@ function App() {
             <div
               {...providedContainers.droppableProps}
               ref={providedContainers.innerRef}
-              className={`bg-blue-400 min-h-fit container-for-TasksContainers not-xs:px-1.5 text-slate-50 border-b-2 border-slate-400 flex flex-row flex-wrap xs:child:my-2 not-xs:child:mt-5 not-xs:child:mr-2 last-child:mr-0`}
+              className={`container-for-TasksContainers flex flex-row flex-nowrap relative overflow-x-scroll min-h-fit text-slate-50 border-b-2 border-slate-400 not-xs:px-1.5 pt-5 px-1 pb-2`}
             >
               {tasksContainerArr.length
                 ? tasksContainerArr.map(
-                    ({ taskContainerName, issues }, droppableIdx) => (
-                      <div
-                        className="task-container min-h-full"
-                        key={`${taskContainerName}-${droppableIdx}`}
-                      >
-                        <TasksContainer
-                          containerName={taskContainerName}
-                          droppableId={droppableIdx}
-                          tasksDragEndHandler={tasksDragEndHandler}
+                    ({ taskContainerName, issues }, droppableIdx) => {
+                      return (
+                        <div
+                          className={`task-container-wrapper min-h-full xs:w-11/12 child:mr-2 ${
+                            droppableIdx === tasksContainerArr.length - 1
+                              ? "child:mr-0"
+                              : null
+                          }`}
+                          key={`${taskContainerName}-${droppableIdx}`}
                         >
-                          {issues.length
-                            ? issues.map((issue, idx) => (
-                                <DraggableIssueBox
-                                  draggableId={`task-${droppableIdx}-${idx}`}
-                                  idx={idx}
-                                  issue={{ ...issue }}
-                                  key={`${idx}-${issue.type}-${issue.title}`}
-                                />
-                              ))
-                            : null}
-                        </TasksContainer>
-                      </div>
-                    )
+                          <TasksContainer
+                            containerName={taskContainerName}
+                            droppableId={droppableIdx}
+                            tasksDragEndHandler={dragEndHandler}
+                          >
+                            {issues.length
+                              ? issues.map((issue, idx) => (
+                                  <DraggableIssueBox
+                                    draggableId={`task-${droppableIdx}-${idx}`}
+                                    idx={idx}
+                                    issue={{ ...issue }}
+                                    key={`${idx}-${issue.type}-${issue.title}`}
+                                  />
+                                ))
+                              : null}
+                          </TasksContainer>
+                        </div>
+                      );
+                    }
                   )
                 : null}
-              <div className="bg-green-400">
-                {providedContainers.placeholder}
-              </div>
+              {providedContainers.placeholder}
             </div>
           )}
         </Droppable>

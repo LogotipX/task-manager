@@ -26,7 +26,7 @@ export default function TasksContainer(props: TProps) {
             // {...providedContainers.dragHandleProps}
             onMouseEnter={() => setVisibility("visible")}
             onMouseLeave={() => setVisibility("invisible")}
-            className={`${props.className} task-container relative p-1 text-sm h-full xs:w-screen min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
+            className={`${props.className} task-container relative p-1 text-sm h-full min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
           >
             <div
               ref={providedContainers.innerRef}
@@ -49,7 +49,7 @@ export default function TasksContainer(props: TProps) {
                   ref={provided.innerRef}
                 >
                   {props.children}
-                  <div className="bg-red-400">{provided.placeholder}</div>
+                  {provided.placeholder}
                   <div className="button__container w-full pb-1 mt-2">
                     <div
                       className={`button__create-issue ${
