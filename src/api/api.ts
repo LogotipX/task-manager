@@ -66,6 +66,29 @@ const issueArrFromApi: issueArr = [
       },
     ],
   },
+  {
+    taskContainerName: "to do 2",
+    issues: [
+      {
+        type: "Task",
+        title: "IssueBox1",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+      {
+        type: "Task",
+        title: "IssueBox2",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+      {
+        type: "Task",
+        title: "IssueBox3",
+        text: "Refactor IssueBox component: need add functional and interpase",
+        // priority: "some priority",
+      },
+    ],
+  },
 ];
 
 export default getIssues;

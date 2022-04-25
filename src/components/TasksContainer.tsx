@@ -1,23 +1,22 @@
-import React, { useState } from "react";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import React, { useState, useEffect } from "react";
+import { Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 
 type TProps = {
   className?: string;
   containerName?: string;
   children?: React.ReactNode;
   droppableId: number;
-  isDragContainer?: boolean;
+  isDropDisabled?: boolean;
   tasksDragEndHandler?(result: DropResult): void;
   containersDragEndHandler?(result: DropResult): void;
 };
 
-export default function TasksContainer(props: TProps | any) {
+export default function TasksContainer(props: TProps) {
   const [visibility, setVisibility] = useState("invisible");
+
+  useEffect(() => {
+    console.log("Container drop disabled =", props.isDropDisabled);
+  }, [props.isDropDisabled]);
 
   return (
     <>
@@ -30,14 +29,14 @@ export default function TasksContainer(props: TProps | any) {
           <div
             ref={providedContainers.innerRef}
             {...providedContainers.draggableProps}
-            // {...provided.dragHandleProps}
+            // {...providedContainers.dragHandleProps}
             onMouseEnter={() => setVisibility("visible")}
             onMouseLeave={() => setVisibility("invisible")}
             className={`${props.className} task-container relative p-1 text-sm h-full xs:w-screen min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
           >
             <div
               ref={providedContainers.innerRef}
-              // {...provided.draggableProps}
+              // {...providedContainers.draggableProps}
               {...providedContainers.dragHandleProps}
               className="container__name uppercase pl-2 mt-2"
             >
@@ -45,7 +44,10 @@ export default function TasksContainer(props: TProps | any) {
             </div>
             <Droppable
               droppableId={String(props.droppableId)}
-              isDropDisabled={props.isDragContainer}
+              isDropDisabled={props.isDropDisabled}
+              direction="vertical"
+              type="task"
+              // mode="virtual"
             >
               {(provided, snapshot) => (
                 <div
@@ -54,7 +56,7 @@ export default function TasksContainer(props: TProps | any) {
                   ref={provided.innerRef}
                 >
                   {props.children}
-                  {provided.placeholder}
+                  <div className="bg-red-400">{provided.placeholder}</div>
                   <div className="button__container w-full pb-1 mt-2">
                     <div
                       className={`button__create-issue ${

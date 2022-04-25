@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
@@ -11,7 +12,7 @@ type TProps = {
     title: string;
     text: string;
   };
-  isDragContainer: boolean;
+  isDragDisabled: boolean;
 };
 
 export default function DraggableIssueBox(props: TProps) {
@@ -19,7 +20,7 @@ export default function DraggableIssueBox(props: TProps) {
     <Draggable
       draggableId={props.draggableId}
       index={props.idx}
-      isDragDisabled={props.isDragContainer}
+      isDragDisabled={props.isDragDisabled}
     >
       {(provided, snapshot) => (
         <div
