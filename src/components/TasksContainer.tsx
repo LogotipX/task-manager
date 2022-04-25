@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 
 type TProps = {
@@ -6,7 +6,6 @@ type TProps = {
   containerName?: string;
   children?: React.ReactNode;
   droppableId: number;
-  isDropDisabled?: boolean;
   tasksDragEndHandler?(result: DropResult): void;
   containersDragEndHandler?(result: DropResult): void;
 };
@@ -14,16 +13,11 @@ type TProps = {
 export default function TasksContainer(props: TProps) {
   const [visibility, setVisibility] = useState("invisible");
 
-  useEffect(() => {
-    console.log("Container drop disabled =", props.isDropDisabled);
-  }, [props.isDropDisabled]);
-
   return (
     <>
       <Draggable
         draggableId={`container-${props.droppableId}`}
         index={props.droppableId}
-        // isDragDisabled={!props.isDragContainer}
       >
         {(providedContainers, snapshot) => (
           <div
@@ -44,7 +38,6 @@ export default function TasksContainer(props: TProps) {
             </div>
             <Droppable
               droppableId={String(props.droppableId)}
-              isDropDisabled={props.isDropDisabled}
               direction="vertical"
               type="task"
               // mode="virtual"
