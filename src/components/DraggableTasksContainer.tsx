@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function DraggableTasksContainer(props: Props) {
-  const [visibility, setVisibility] = useState("invisible");
+  const [visibility, setVisibility] = useState(false);
 
   return (
     <Draggable
@@ -26,8 +26,8 @@ export default function DraggableTasksContainer(props: Props) {
           ref={providedContainers.innerRef}
           {...providedContainers.draggableProps}
           // {...providedContainers.dragHandleProps}
-          onMouseEnter={() => setVisibility("visible")}
-          onMouseLeave={() => setVisibility("invisible")}
+          onMouseEnter={() => setVisibility(true)}
+          onMouseLeave={() => setVisibility(false)}
           className={`${props.className} task-container relative p-1 text-sm h-full min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
         >
           <div
@@ -41,7 +41,7 @@ export default function DraggableTasksContainer(props: Props) {
           <TasksContainer
             droppableId={props.droppableId}
             createIssue={props.createIssue}
-            buttonVisibility={visibility}
+            containerHover={visibility}
           >
             {props.children}
           </TasksContainer>

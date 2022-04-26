@@ -7,7 +7,7 @@ type TProps = {
   containerName?: string;
   children?: React.ReactNode;
   droppableId: number;
-  buttonVisibility: string;
+  containerHover: boolean;
   tasksDragEndHandler?(result: DropResult): void;
   containersDragEndHandler?(result: DropResult): void;
   createIssue(containerId: number): void;
@@ -24,7 +24,7 @@ export default function TasksContainer(props: TProps) {
       >
         {(provided, snapshot) => (
           <div
-            className="droppable-container child:mt-2 h-[91%] rounded-sm"
+            className={`droppable-container child:mt-2 h-[91%] rounded-sm`}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
@@ -33,7 +33,11 @@ export default function TasksContainer(props: TProps) {
 
             <div
               className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 ${
-                props.children ? props.buttonVisibility : "visible"
+                props.children
+                  ? props.containerHover
+                    ? "visible"
+                    : "invisible"
+                  : "visible"
               }`}
             >
               <Button clickHandler={() => props.createIssue(props.droppableId)}>
