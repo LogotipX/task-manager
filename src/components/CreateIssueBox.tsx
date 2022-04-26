@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import Button from "./Button";
+import { Issue } from "../App";
 
 type Props = {
   addIssue(param: createdIssue): void;
   containerIdx: number;
-};
-
-type Issue = {
-  type: string;
-  title: string;
-  text: string;
 };
 
 type createdIssue = {

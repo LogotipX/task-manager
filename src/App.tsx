@@ -16,7 +16,7 @@ type tasksContainerArr = {
 
 type issueArr = Issue[];
 
-type Issue = {
+export type Issue = {
   type: string;
   title: string;
   text: string;
@@ -33,6 +33,7 @@ function App() {
   const [tasksContainerArr, setTasksContainerArr] = useState<tasksContainerArr>(
     []
   );
+  const [hasCreateIssueBlock, setHasCreateIssueBlock] = useState(false);
 
   function getWindowWidth() {
     setWidth(window.innerWidth);
@@ -114,7 +115,11 @@ function App() {
     return reorderedList;
   }
 
-  function btnCreateIssue(containerId: number) {
+  function createIssueBtn(containerId: number) {
+    if (hasCreateIssueBlock) return;
+
+    setHasCreateIssueBlock(true);
+
     if (typeof containerId !== "number") return;
 
     const containerArr = Array.from(tasksContainerArr);
@@ -127,14 +132,17 @@ function App() {
     setTimeout(() => setTasksContainerArr(containerArr), 0);
   }
 
-  function addIssueFromCreate(newIssue: createdIssue) {
+  function addIssueFromCreateForm(newIssue: createdIssue) {
+    if (!newIssue.issue.title.length && !newIssue.issue.text.length) return;
+
     const containerArr = Array.from(tasksContainerArr);
     const id = newIssue.containerIdx;
-    containerArr[id].issues.pop();
 
+    containerArr[id].issues.pop();
     containerArr[id].issues.push(newIssue.issue);
 
     setTasksContainerArr(containerArr);
+    setHasCreateIssueBlock(false);
   }
 
   return (
@@ -170,28 +178,31 @@ function App() {
                             containerName={taskContainerName}
                             droppableId={droppableIdx}
                             tasksDragEndHandler={dragEndHandler}
-                            createIssue={btnCreateIssue}
+                            createIssue={createIssueBtn}
                           >
                             {issues.length
-                              ? issues.map((issue, idx) =>
-                                  issue.isFormCreate ? (
-                                    <div
-                                      key={`${idx}-${issue.type}-${issue.title}`}
-                                    >
-                                      <CreateIssueBox
-                                        addIssue={addIssueFromCreate}
-                                        containerIdx={droppableIdx}
+                              ? issues.map((issue, idx) => {
+                                  if (issue.isFormCreate) {
+                                    return (
+                                      <div
+                                        key={`${idx}-${issue.type}-${issue.title}`}
+                                      >
+                                        <CreateIssueBox
+                                          addIssue={addIssueFromCreateForm}
+                                          containerIdx={droppableIdx}
+                                        />
+                                      </div>
+                                    );
+                                  } else
+                                    return (
+                                      <DraggableIssueBox
+                                        draggableId={`task-${droppableIdx}-${idx}`}
+                                        idx={idx}
+                                        issue={{ ...issue }}
+                                        key={`${idx}-${issue.type}-${issue.title}`}
                                       />
-                                    </div>
-                                  ) : (
-                                    <DraggableIssueBox
-                                      draggableId={`task-${droppableIdx}-${idx}`}
-                                      idx={idx}
-                                      issue={{ ...issue }}
-                                      key={`${idx}-${issue.type}-${issue.title}`}
-                                    />
-                                  )
-                                )
+                                    );
+                                })
                               : null}
                           </TasksContainer>
                         </div>

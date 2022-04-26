@@ -1,6 +1,5 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import CreateIssueBox from "./CreateIssueBox";
 
 import IssueBox from "./IssueBox";
 
