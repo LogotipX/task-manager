@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import React from "react";
+import { Droppable, DropResult } from "react-beautiful-dnd";
 import Button from "./Button";
 
 type TProps = {
@@ -7,69 +7,42 @@ type TProps = {
   containerName?: string;
   children?: React.ReactNode;
   droppableId: number;
+  buttonVisibility: string;
   tasksDragEndHandler?(result: DropResult): void;
   containersDragEndHandler?(result: DropResult): void;
-  createIssue(containerId: any): any;
+  createIssue(containerId: number): void;
 };
 
 export default function TasksContainer(props: TProps) {
-  const [visibility, setVisibility] = useState("invisible");
-
   return (
     <>
-      <Draggable
-        draggableId={`container-${props.droppableId}`}
-        index={props.droppableId}
+      <Droppable
+        droppableId={String(props.droppableId)}
+        direction="vertical"
+        type="task"
+        // mode="virtual"
       >
-        {(providedContainers, snapshot) => (
+        {(provided, snapshot) => (
           <div
-            ref={providedContainers.innerRef}
-            {...providedContainers.draggableProps}
-            // {...providedContainers.dragHandleProps}
-            onMouseEnter={() => setVisibility("visible")}
-            onMouseLeave={() => setVisibility("invisible")}
-            className={`${props.className} task-container relative p-1 text-sm h-full min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
+            className="droppable-container child:mt-2 h-[91%] rounded-sm"
+            {...provided.droppableProps}
+            ref={provided.innerRef}
           >
-            <div
-              ref={providedContainers.innerRef}
-              // {...providedContainers.draggableProps}
-              {...providedContainers.dragHandleProps}
-              className="container__name uppercase pl-2 mt-2"
-            >
-              {props.containerName}
-            </div>
-            <Droppable
-              droppableId={String(props.droppableId)}
-              direction="vertical"
-              type="task"
-              // mode="virtual"
-            >
-              {(provided, snapshot) => (
-                <div
-                  className="droppable-container child:mt-2 h-[91%] rounded-sm"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {props.children}
-                  {provided.placeholder}
+            {props.children}
+            {provided.placeholder}
 
-                  <div
-                    className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 ${
-                      props.children ? visibility : "visible"
-                    }`}
-                  >
-                    <Button
-                      clickHandler={() => props.createIssue(props.droppableId)}
-                    >
-                      + Create issue
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </Droppable>
+            <div
+              className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 ${
+                props.children ? props.buttonVisibility : "visible"
+              }`}
+            >
+              <Button clickHandler={() => props.createIssue(props.droppableId)}>
+                + Create issue
+              </Button>
+            </div>
           </div>
         )}
-      </Draggable>
+      </Droppable>
     </>
   );
 }

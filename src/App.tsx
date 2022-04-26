@@ -5,9 +5,9 @@ import "./App.scss";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 import DraggableIssueBox from "./components/DraggableIssueBox";
-import TasksContainer from "./components/TasksContainer";
 import getIssues from "./api/api";
 import CreateIssueBox from "./components/CreateIssueBox";
+import DraggableTasksContainer from "./components/DraggableTasksContainer";
 
 type tasksContainerArr = {
   taskContainerName: string;
@@ -174,7 +174,7 @@ function App() {
                           }`}
                           key={`${taskContainerName}-${droppableIdx}`}
                         >
-                          <TasksContainer
+                          <DraggableTasksContainer
                             containerName={taskContainerName}
                             droppableId={droppableIdx}
                             tasksDragEndHandler={dragEndHandler}
@@ -204,7 +204,7 @@ function App() {
                                     );
                                 })
                               : null}
-                          </TasksContainer>
+                          </DraggableTasksContainer>
                         </div>
                       );
                     }
