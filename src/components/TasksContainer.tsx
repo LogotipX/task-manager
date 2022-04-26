@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import Button from "./Button";
 
 type TProps = {
   className?: string;
@@ -51,7 +52,7 @@ export default function TasksContainer(props: TProps) {
                 >
                   {props.children}
                   {provided.placeholder}
-                  <div className="button__container w-full pb-1 mt-2">
+                  {/* <div className="button__container w-full pb-1 mt-2">
                     <div
                       onClick={() => props.createIssue(props.droppableId)}
                       className={`button__create-issue ${
@@ -60,6 +61,17 @@ export default function TasksContainer(props: TProps) {
                     >
                       + Create issue
                     </div>
+                  </div> */}
+                  <div
+                    className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 ${
+                      props.children ? visibility : "visible"
+                    }`}
+                  >
+                    <Button
+                      clickHandler={() => props.createIssue(props.droppableId)}
+                    >
+                      + Create issue
+                    </Button>
                   </div>
                 </div>
               )}

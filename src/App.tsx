@@ -7,17 +7,26 @@ import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import DraggableIssueBox from "./components/DraggableIssueBox";
 import TasksContainer from "./components/TasksContainer";
 import getIssues from "./api/api";
+import CreateIssueBox from "./components/CreateIssueBox";
 
 type tasksContainerArr = {
   taskContainerName: string;
   issues: issueArr;
 }[];
 
-type issueArr = {
+type issueArr = Issue[];
+
+type Issue = {
   type: string;
   title: string;
   text: string;
-}[];
+  isFormCreate?: boolean;
+};
+
+type createdIssue = {
+  containerIdx: number;
+  issue: Issue;
+};
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -110,12 +119,22 @@ function App() {
 
     const containerArr = Array.from(tasksContainerArr);
     containerArr[containerId].issues.push({
-      type: "Created",
-      title: "Created IssueBox1",
-      text: "Refactor IssueBox component: need add functional and interpase",
-      // priority: "some priority",
+      type: "",
+      title: "",
+      text: "",
+      isFormCreate: true,
     });
     setTimeout(() => setTasksContainerArr(containerArr), 0);
+  }
+
+  function addIssueFromCreate(newIssue: createdIssue) {
+    const containerArr = Array.from(tasksContainerArr);
+    const id = newIssue.containerIdx;
+    containerArr[id].issues.pop();
+
+    containerArr[id].issues.push(newIssue.issue);
+
+    setTasksContainerArr(containerArr);
   }
 
   return (
@@ -154,14 +173,25 @@ function App() {
                             createIssue={btnCreateIssue}
                           >
                             {issues.length
-                              ? issues.map((issue, idx) => (
-                                  <DraggableIssueBox
-                                    draggableId={`task-${droppableIdx}-${idx}`}
-                                    idx={idx}
-                                    issue={{ ...issue }}
-                                    key={`${idx}-${issue.type}-${issue.title}`}
-                                  />
-                                ))
+                              ? issues.map((issue, idx) =>
+                                  issue.isFormCreate ? (
+                                    <div
+                                      key={`${idx}-${issue.type}-${issue.title}`}
+                                    >
+                                      <CreateIssueBox
+                                        addIssue={addIssueFromCreate}
+                                        containerIdx={droppableIdx}
+                                      />
+                                    </div>
+                                  ) : (
+                                    <DraggableIssueBox
+                                      draggableId={`task-${droppableIdx}-${idx}`}
+                                      idx={idx}
+                                      issue={{ ...issue }}
+                                      key={`${idx}-${issue.type}-${issue.title}`}
+                                    />
+                                  )
+                                )
                               : null}
                           </TasksContainer>
                         </div>
