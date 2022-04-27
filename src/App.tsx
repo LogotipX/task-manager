@@ -8,8 +8,9 @@ import DraggableIssueBox from "./components/DraggableIssueBox";
 import getIssues from "./api/api";
 import CreateIssueBox from "./components/CreateIssueBox";
 import DraggableTasksContainer from "./components/DraggableTasksContainer";
+import { reorderTasks, reorderContainers } from "./api/reorders";
 
-type tasksContainerArr = {
+export type tasksContainerArr = {
   taskContainerName: string;
   issues: issueArr;
 }[];
@@ -59,17 +60,12 @@ function App() {
       0,
       tasksContainerArr.length
     );
-    const idxElPositionFrom: number = Number(result.source.index);
-    const idxElPositionTo: number = Number(result.destination.index);
-
-    const idxFromContainer: number = Number(result.source.droppableId);
-    const idxToContainer: number = Number(result.destination.droppableId);
 
     if (result.destination.droppableId.indexOf("containersDropzone") > -1) {
       const reorderedContainers: tasksContainerArr = reorderContainers(
         reorderedTasksContainer,
-        idxElPositionFrom,
-        idxElPositionTo
+        result.source.index,
+        result.destination.index
       );
       setTasksContainerArr(reorderedContainers);
       return;
@@ -79,40 +75,11 @@ function App() {
       reorderedTasksContainer,
       result.source.index,
       result.destination.index,
-      idxFromContainer,
-      idxToContainer
+      Number(result.source.droppableId),
+      Number(result.destination.droppableId)
     );
 
     setTasksContainerArr(reorderedList);
-  }
-
-  function reorderTasks(
-    list: tasksContainerArr,
-    fromDragElIdx: number,
-    toDragElIdx: number,
-    fromContainer: number,
-    toContainer: number
-  ) {
-    const reorderedList = Array.from(list);
-    const [removed] = reorderedList[fromContainer].issues.splice(
-      fromDragElIdx,
-      1
-    );
-    reorderedList[toContainer].issues.splice(toDragElIdx, 0, removed);
-
-    return reorderedList;
-  }
-
-  function reorderContainers(
-    list: tasksContainerArr,
-    fromDragElIdx: number,
-    toDragElIdx: number
-  ) {
-    const reorderedList = Array.from(list);
-    const [removed] = reorderedList.splice(fromDragElIdx, 1);
-    reorderedList.splice(toDragElIdx, 0, removed);
-
-    return reorderedList;
   }
 
   function createIssueBtn(containerId: number) {
@@ -143,6 +110,13 @@ function App() {
 
     setTasksContainerArr(containerArr);
     setHasCreateIssueBlock(false);
+  }
+
+  function removeIssue(containerIdx: number, issueIdx: number) {
+    const containerArr = Array.from(tasksContainerArr);
+    containerArr[containerIdx].issues.splice(issueIdx, 1);
+
+    setTasksContainerArr(containerArr);
   }
 
   return (
@@ -200,6 +174,9 @@ function App() {
                                         idx={idx}
                                         issue={{ ...issue }}
                                         key={`${idx}-${issue.type}-${issue.title}`}
+                                        onClickDots={(param) =>
+                                          removeIssue(droppableIdx, param)
+                                        }
                                       />
                                     );
                                 })

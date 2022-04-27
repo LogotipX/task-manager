@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 import IssueBox from "./IssueBox";
@@ -12,11 +12,22 @@ type TProps = {
     text: string;
     isFormCreate?: boolean;
   };
+  onClickDots(issueId: number): void;
 };
 
 export default function DraggableIssueBox(props: TProps) {
+  const [disableDrag, setDisableDrag] = useState(false);
+
+  function onClickDots() {
+    props.onClickDots(props.idx);
+  }
+
   return (
-    <Draggable draggableId={props.draggableId} index={props.idx}>
+    <Draggable
+      draggableId={props.draggableId}
+      index={props.idx}
+      isDragDisabled={disableDrag}
+    >
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -27,6 +38,8 @@ export default function DraggableIssueBox(props: TProps) {
             type={props.issue.type}
             title={props.issue.title}
             text={props.issue.text}
+            disableDrag={setDisableDrag}
+            onClickDots={onClickDots}
           />
         </div>
       )}
