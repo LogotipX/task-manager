@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import SvgDots from "../icons/dots-3";
 import Button from "./Button";
 
@@ -12,8 +12,12 @@ type TProps = {
 };
 
 function IssueBox(props: TProps) {
+  const [modalVisibility, setModalVisibility] = useState(false);
+
   return (
-    <div className={"issue-box rounded-sm bg-slate-700 px-2 py-3"}>
+    <div
+      className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
+    >
       <div className="issue-box__header flex justify-between">
         <div className="issue__type text-slate-300">{props.type}</div>
         <div
@@ -21,9 +25,23 @@ function IssueBox(props: TProps) {
           onMouseLeave={() => props?.disableDrag(false)}
           className="issue-box__settings"
         >
-          <Button clickHandler={props.onClickDots}>
+          <Button clickHandler={() => setModalVisibility(true)}>
             <SvgDots className="fill-slate-50 w-6 z-10" />
           </Button>
+          <div
+            className={`settings-modal absolute left-0 top-0 w-full h-full bg-slate-700 text-center ${
+              modalVisibility ? "visible" : "invisible"
+            }`}
+          >
+            <div className="settings-container flex flex-col justify-between w-full h-full">
+              <Button clickHandler={() => setModalVisibility(false)}>
+                <span className="text-slate-50">Cancel</span>
+              </Button>
+              <Button clickHandler={props.onClickDots}>
+                <span className="text-red-500">Remove issue</span>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
       <div className="task__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">

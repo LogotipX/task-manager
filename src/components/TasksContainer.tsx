@@ -32,7 +32,7 @@ export default function TasksContainer(props: TProps) {
             {provided.placeholder}
 
             <div
-              className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 ${
+              className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 xs:visible ${
                 props.children
                   ? props.containerHover
                     ? "visible"
