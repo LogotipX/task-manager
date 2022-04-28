@@ -12,14 +12,14 @@ type TProps = {
     text: string;
     isFormCreate?: boolean;
   };
-  onClickDots(issueId: number): void;
+  removeIssue(issueId: number): void;
 };
 
 export default function DraggableIssueBox(props: TProps) {
   const [disableDrag, setDisableDrag] = useState(false);
 
-  function onClickDots() {
-    props.onClickDots(props.idx);
+  function removeIssue() {
+    props.removeIssue(props.idx);
   }
 
   return (
@@ -39,7 +39,7 @@ export default function DraggableIssueBox(props: TProps) {
             title={props.issue.title}
             text={props.issue.text}
             disableDrag={setDisableDrag}
-            onClickDots={onClickDots}
+            removeIssue={removeIssue}
           />
         </div>
       )}

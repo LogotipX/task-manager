@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SvgDots from "../icons/dots-3";
 import Button from "./Button";
+import IssueContextMenu from "./IssueContextMenu";
 
 type TProps = {
   type: string;
@@ -8,11 +9,12 @@ type TProps = {
   text: string;
   // priority: string;
   disableDrag(param: boolean): void;
-  onClickDots(): void;
+  removeIssue(): void;
 };
 
 function IssueBox(props: TProps) {
-  const [modalVisibility, setModalVisibility] = useState(false);
+  const [IssueContextMenuVisibility, setIssueContextMenuVisibility] =
+    useState(false);
 
   return (
     <div
@@ -25,23 +27,14 @@ function IssueBox(props: TProps) {
           onMouseLeave={() => props?.disableDrag(false)}
           className="issue-box__settings"
         >
-          <Button clickHandler={() => setModalVisibility(true)}>
+          <Button clickHandler={() => setIssueContextMenuVisibility(true)}>
             <SvgDots className="fill-slate-50 w-6 z-10" />
           </Button>
-          <div
-            className={`settings-modal absolute left-0 top-0 w-full h-full bg-slate-700 text-center ${
-              modalVisibility ? "visible" : "invisible"
-            }`}
-          >
-            <div className="settings-container flex flex-col justify-between w-full h-full">
-              <Button clickHandler={() => setModalVisibility(false)}>
-                <span className="text-slate-50">Cancel</span>
-              </Button>
-              <Button clickHandler={props.onClickDots}>
-                <span className="text-red-500">Remove issue</span>
-              </Button>
-            </div>
-          </div>
+          <IssueContextMenu
+            visibility={IssueContextMenuVisibility}
+            setVisibility={setIssueContextMenuVisibility}
+            removeIssue={props.removeIssue}
+          />
         </div>
       </div>
       <div className="task__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">

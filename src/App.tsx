@@ -174,7 +174,7 @@ function App() {
                                         idx={idx}
                                         issue={{ ...issue }}
                                         key={`${idx}-${issue.type}-${issue.title}`}
-                                        onClickDots={(param) =>
+                                        removeIssue={(param) =>
                                           removeIssue(droppableIdx, param)
                                         }
                                       />
