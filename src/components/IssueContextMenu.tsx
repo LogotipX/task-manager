@@ -4,6 +4,7 @@ type Props = {
   visibility: boolean;
   setVisibility(param: boolean): void;
   removeIssue(): void;
+  editIssue(): void;
 };
 
 export default function IssueContextMenu(props: Props) {
@@ -14,6 +15,9 @@ export default function IssueContextMenu(props: Props) {
       }`}
     >
       <div className="settings-container flex flex-col justify-between w-full h-full">
+        <Button clickHandler={props.editIssue}>
+          <span className="text-slate-50">Edit</span>
+        </Button>
         <Button clickHandler={() => props.setVisibility(false)}>
           <span className="text-slate-50">Cancel</span>
         </Button>

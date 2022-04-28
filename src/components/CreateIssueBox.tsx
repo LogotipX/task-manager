@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import { Issue } from "../App";
 
 type Props = {
   addIssue(param: createdIssue): void;
   containerIdx: number;
+  title?: string;
+  text?: string;
 };
 
 type createdIssue = {
@@ -25,6 +27,16 @@ export default function CreateIssueBox(props: Props) {
       // priority: "some priority",
     },
   };
+
+  useEffect(() => {
+    if (props.title !== undefined) {
+      setTitle(props.title);
+    }
+
+    if (props.text !== undefined) {
+      setText(props.text);
+    }
+  }, [props.title, props.text]);
 
   function keyPressHandler(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
