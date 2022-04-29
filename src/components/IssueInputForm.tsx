@@ -3,44 +3,38 @@ import Button from "./Button";
 import { Issue } from "../App";
 
 type Props = {
-  addIssue(param: createdIssue): void;
+  onSubmit(containerIdx: number, issueIdx: number, issue?: Issue): void;
   containerIdx: number;
-  title?: string;
-  text?: string;
+  issueIdx: number;
+  issue?: Issue;
 };
 
-type createdIssue = {
-  containerIdx: number;
-  issue: Issue;
-};
-
-export default function CreateIssueBox(props: Props) {
+export default function IssueInputForm(props: Props) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
 
-  const issueObj = {
-    containerIdx: props.containerIdx,
-    issue: {
-      type: "Task",
-      title,
-      text,
-      // priority: "some priority",
-    },
+  // containerIdx: props.issueWrapper.containerIdx,
+  // issueIdx: props.issueWrapper.issueIdx,
+  const issue: Issue = {
+    type: "Task",
+    title,
+    text,
+    // priority: "some priority",
   };
 
   useEffect(() => {
-    if (props.title !== undefined) {
-      setTitle(props.title);
+    if (props.issue?.title !== undefined) {
+      setTitle(props.issue.title);
     }
 
-    if (props.text !== undefined) {
-      setText(props.text);
+    if (props.issue?.text !== undefined) {
+      setText(props.issue.text);
     }
-  }, [props.title, props.text]);
+  }, [props.issue?.title, props.issue?.text]);
 
   function keyPressHandler(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
-      props.addIssue(issueObj);
+      props.onSubmit(props.containerIdx, props.issueIdx, issue);
     }
   }
 
@@ -71,7 +65,13 @@ export default function CreateIssueBox(props: Props) {
         />
       </div>
       <div className="button__wrapper mt-1">
-        <Button clickHandler={() => props.addIssue(issueObj)}>Add issue</Button>
+        <Button
+          clickHandler={() =>
+            props.onSubmit(props.containerIdx, props.issueIdx, issue)
+          }
+        >
+          Confirm
+        </Button>
       </div>
       {/* <div className="task__priority">{props.priority}</div> */}
     </div>

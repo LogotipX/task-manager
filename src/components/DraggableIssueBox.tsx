@@ -2,21 +2,28 @@ import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 import IssueBox from "./IssueBox";
+import { Issue } from "../App";
 
 type TProps = {
   draggableId: string;
-  idx: number;
-  issue: {
-    type: string;
-    title: string;
-    text: string;
-    isFormCreate?: boolean;
-  };
+  editIssue(containerIdx: number, issueIdx: number, newIssue: Issue): void;
   removeIssue(issueId: number): void;
+  idx: number;
+  containerIdx: number;
+  issue: Issue;
 };
 
 export default function DraggableIssueBox(props: TProps) {
   const [disableDrag, setDisableDrag] = useState(false);
+
+  function editIssue(
+    containerIdx: number,
+    issueIdx: number,
+    editedIssue: Issue
+  ) {
+    // props.editIssue(editedIssue);
+    props.editIssue(containerIdx, issueIdx, editedIssue);
+  }
 
   function removeIssue() {
     props.removeIssue(props.idx);
@@ -40,6 +47,9 @@ export default function DraggableIssueBox(props: TProps) {
             text={props.issue.text}
             disableDrag={setDisableDrag}
             removeIssue={removeIssue}
+            issueIdx={props.idx}
+            containerIdx={props.containerIdx}
+            editIssue={editIssue}
           />
         </div>
       )}

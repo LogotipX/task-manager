@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 import DraggableIssueBox from "./components/DraggableIssueBox";
 import getIssues from "./api/api";
-import CreateIssueBox from "./components/CreateIssueBox";
+import IssueInputForm from "./components/IssueInputForm";
 import DraggableTasksContainer from "./components/DraggableTasksContainer";
 import { reorderTasks, reorderContainers } from "./api/reorders";
 
@@ -15,8 +15,6 @@ export type tasksContainerArr = {
   issues: issueArr;
 }[];
 
-type issueArr = Issue[];
-
 export type Issue = {
   type: string;
   title: string;
@@ -24,10 +22,13 @@ export type Issue = {
   isFormCreate?: boolean;
 };
 
-type createdIssue = {
+export type issueWrapperId = {
   containerIdx: number;
+  issueIdx: number;
   issue: Issue;
 };
+
+type issueArr = Issue[];
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -99,17 +100,32 @@ function App() {
     setTimeout(() => setTasksContainerArr(containerArr), 0);
   }
 
-  function addIssueFromCreateForm(newIssue: createdIssue) {
-    if (!newIssue.issue.title.length && !newIssue.issue.text.length) return;
+  function addIssueFromCreateForm(
+    containerIdx: number,
+    issueIdx: number,
+    newIssue: Issue
+  ) {
+    if (!newIssue.title.length && !newIssue.text.length) return;
 
     const containerArr = Array.from(tasksContainerArr);
-    const id = newIssue.containerIdx;
+    const id = containerIdx;
 
     containerArr[id].issues.pop();
-    containerArr[id].issues.push(newIssue.issue);
+    containerArr[id].issues.push(newIssue);
 
     setTasksContainerArr(containerArr);
     setHasCreateIssueBlock(false);
+  }
+
+  function editIssue(
+    containerIdx: number,
+    issueIdx: number,
+    editedIssue: Issue
+  ) {
+    const containerArr = Array.from(tasksContainerArr);
+    containerArr[containerIdx].issues.splice(issueIdx, 1, editedIssue);
+
+    setTasksContainerArr(containerArr);
   }
 
   function removeIssue(containerIdx: number, issueIdx: number) {
@@ -161,9 +177,10 @@ function App() {
                                       <div
                                         key={`${idx}-${issue.type}-${issue.title}`}
                                       >
-                                        <CreateIssueBox
-                                          addIssue={addIssueFromCreateForm}
+                                        <IssueInputForm
+                                          onSubmit={addIssueFromCreateForm}
                                           containerIdx={droppableIdx}
+                                          issueIdx={idx}
                                         />
                                       </div>
                                     );
@@ -172,11 +189,13 @@ function App() {
                                       <DraggableIssueBox
                                         draggableId={`task-${droppableIdx}-${idx}`}
                                         idx={idx}
+                                        containerIdx={droppableIdx}
                                         issue={{ ...issue }}
                                         key={`${idx}-${issue.type}-${issue.title}`}
-                                        removeIssue={(param) =>
-                                          removeIssue(droppableIdx, param)
+                                        removeIssue={(issueId) =>
+                                          removeIssue(droppableIdx, issueId)
                                         }
+                                        editIssue={editIssue}
                                       />
                                     );
                                 })
