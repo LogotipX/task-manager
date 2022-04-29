@@ -34,7 +34,7 @@ export default function DraggableTasksContainer(props: Props) {
             ref={providedContainers.innerRef}
             // {...providedContainers.draggableProps}
             {...providedContainers.dragHandleProps}
-            className="container__name uppercase pl-2 mt-2"
+            className="container__name uppercase pl-2 pt-2"
           >
             {props.containerName}
           </div>

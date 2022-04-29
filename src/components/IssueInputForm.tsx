@@ -13,8 +13,6 @@ export default function IssueInputForm(props: Props) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
 
-  // containerIdx: props.issueWrapper.containerIdx,
-  // issueIdx: props.issueWrapper.issueIdx,
   const issue: Issue = {
     type: "Task",
     title,
@@ -48,6 +46,7 @@ export default function IssueInputForm(props: Props) {
           autoFocus
           placeholder="Issue title"
           value={title}
+          maxLength={64}
           onChange={(input) => setTitle(input.target.value)}
           onKeyDown={keyPressHandler}
         />
@@ -60,6 +59,7 @@ export default function IssueInputForm(props: Props) {
           cols={2}
           rows={2}
           value={text}
+          maxLength={255}
           onChange={(input) => setText(input.target.value)}
           onKeyDown={keyPressHandler}
         />
