@@ -11,6 +11,7 @@ type TProps = {
   idx: number;
   containerIdx: number;
   issue: Issue;
+  onClick(): void;
 };
 
 export default function DraggableIssueBox(props: TProps) {
@@ -40,6 +41,7 @@ export default function DraggableIssueBox(props: TProps) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          onClick={props.onClick}
         >
           <IssueBox
             type={props.issue.type}

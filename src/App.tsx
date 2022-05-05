@@ -38,6 +38,11 @@ function App() {
   );
   const [hasCreateIssueBlock, setHasCreateIssueBlock] = useState(false);
 
+  const [issueModalObject, setIssueModalObject] = useState({
+    containerIdx: -1,
+    issueIdx: -1,
+  });
+
   function getWindowWidth() {
     setWidth(window.innerWidth);
   }
@@ -136,12 +141,22 @@ function App() {
     setTasksContainerArr(containerArr);
   }
 
+  function showIssueModal(containerIdx: number, issueIdx: number) {
+    setIssueModalObject({ containerIdx, issueIdx });
+  }
+
   return (
     <div className="App min-h-screen relative overflow-hidden bg-slate-900">
-      {tasksContainerArr.length ? (
+      {issueModalObject.containerIdx >= 0 ? (
         <IssueBoxModalWIndow
-          issue={tasksContainerArr[0].issues[0]}
-          closeModal={() => console.log("close Modal")}
+          issue={
+            tasksContainerArr[issueModalObject["containerIdx"]].issues[
+              issueModalObject["issueIdx"]
+            ]
+          }
+          closeModal={() =>
+            setIssueModalObject({ containerIdx: -1, issueIdx: -1 })
+          }
         />
       ) : null}
       <header className="w-full text-slate-100 h-12 bg-slate-700 shadow-md">
@@ -203,6 +218,9 @@ function App() {
                                           removeIssue(droppableIdx, issueId)
                                         }
                                         editIssue={editIssue}
+                                        onClick={() =>
+                                          showIssueModal(droppableIdx, idx)
+                                        }
                                       />
                                     );
                                 })
