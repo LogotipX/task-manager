@@ -9,6 +9,7 @@ import getIssues from "./api/api";
 import IssueInputForm from "./components/IssueInputForm";
 import DraggableTasksContainer from "./components/DraggableTasksContainer";
 import { reorderTasks, reorderContainers } from "./api/reorders";
+import IssueBoxModalWIndow from "./components/IssueBoxModalWindow";
 
 export type tasksContainerArr = {
   taskContainerName: string;
@@ -136,7 +137,13 @@ function App() {
   }
 
   return (
-    <div className="App min-h-screen overflow-hidden bg-slate-900">
+    <div className="App min-h-screen relative overflow-hidden bg-slate-900">
+      {tasksContainerArr.length ? (
+        <IssueBoxModalWIndow
+          issue={tasksContainerArr[0].issues[0]}
+          closeModal={() => console.log("close Modal")}
+        />
+      ) : null}
       <header className="w-full text-slate-100 h-12 bg-slate-700 shadow-md">
         {width}
       </header>
