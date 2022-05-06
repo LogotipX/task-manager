@@ -41,7 +41,6 @@ export default function DraggableIssueBox(props: TProps) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          onClick={props.onClick}
         >
           <IssueBox
             type={props.issue.type}
@@ -52,6 +51,7 @@ export default function DraggableIssueBox(props: TProps) {
             issueIdx={props.idx}
             containerIdx={props.containerIdx}
             editIssue={editIssue}
+            onClick={props.onClick}
           />
         </div>
       )}

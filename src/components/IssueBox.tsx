@@ -16,6 +16,7 @@ type TProps = {
   disableDrag(param: boolean): void;
   editIssue(containerIdx: number, issueIdx: number, newIssue: Issue): void;
   removeIssue(): void;
+  onClick(): void;
 };
 
 function IssueBox(props: TProps) {
@@ -35,46 +36,7 @@ function IssueBox(props: TProps) {
 
   return (
     <>
-      <div
-        className={`issue-box ${
-          issueEditFormVisibility ? "hidden" : "block"
-        } relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
-        onDoubleClick={() => setIssueEditFormVisibility(true)}
-      >
-        <div className="issue-box__header flex justify-between">
-          <div className="issue__type text-slate-300">{type}</div>
-          <div
-            onMouseEnter={() => props?.disableDrag(true)}
-            onMouseLeave={() => props?.disableDrag(false)}
-            className="issue-box__settings"
-          >
-            <Button clickHandler={() => setIssueContextMenuVisibility(true)}>
-              <SvgDots className="fill-slate-50 w-6 z-10" />
-            </Button>
-            <IssueContextMenu
-              visibility={issueContextMenuVisibility}
-              editIssue={() => {
-                setIssueEditFormVisibility(true);
-                setIssueContextMenuVisibility(false);
-              }}
-              setVisibility={setIssueContextMenuVisibility}
-              removeIssue={props.removeIssue}
-            />
-          </div>
-        </div>
-        <div className={`issue`}>
-          <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
-            {title}
-          </div>
-          <div className="issue__text text-slate-100 break-words">{text}</div>
-          {/* <div className="task__priority">{props.priority}</div> */}
-        </div>
-      </div>
-      <div
-        className={`issue__edit-form ${
-          issueEditFormVisibility ? "block" : "hidden"
-        }`}
-      >
+      {issueEditFormVisibility ? (
         <IssueInputForm
           onSubmit={(containerIdx, issueIdx, editedIssue) => {
             setIssueEditFormVisibility(false);
@@ -90,7 +52,48 @@ function IssueBox(props: TProps) {
             text,
           }}
         />
-      </div>
+      ) : (
+        <div
+          className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
+          onClick={props.onClick}
+          onDoubleClick={() => setIssueEditFormVisibility(true)}
+        >
+          <div className="issue-box__header flex justify-between">
+            <div className="issue__type text-slate-300">{type}</div>
+            <div
+              onMouseEnter={() => props?.disableDrag(true)}
+              onMouseLeave={() => props?.disableDrag(false)}
+              className="issue-box__settings"
+            >
+              <Button
+                clickHandler={(event) => {
+                  event?.stopPropagation();
+                  setIssueContextMenuVisibility(true);
+                }}
+              >
+                <SvgDots className="fill-slate-50 w-6 z-10" />
+              </Button>
+              {issueContextMenuVisibility ? (
+                <IssueContextMenu
+                  editIssue={() => {
+                    setIssueEditFormVisibility(true);
+                    setIssueContextMenuVisibility(false);
+                  }}
+                  onCancel={() => setIssueContextMenuVisibility(false)}
+                  removeIssue={props.removeIssue}
+                />
+              ) : null}
+            </div>
+          </div>
+          <div className={`issue`}>
+            <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
+              {title}
+            </div>
+            <div className="issue__text text-slate-100 break-words">{text}</div>
+            {/* <div className="task__priority">{props.priority}</div> */}
+          </div>
+        </div>
+      )}
     </>
   );
 }

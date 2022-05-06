@@ -76,8 +76,6 @@ function App() {
 
     setHasCreateIssueBlock(true);
 
-    if (typeof containerId !== "number") return;
-
     const containerArr = Array.from(tasksContainerArr);
     containerArr[containerId].issues.push({
       type: "",

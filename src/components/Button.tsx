@@ -1,7 +1,7 @@
 import React from "react";
 
 type BtnProps = {
-  clickHandler(): void;
+  clickHandler(event?: React.MouseEvent): void;
   children?: React.ReactNode;
 };
 

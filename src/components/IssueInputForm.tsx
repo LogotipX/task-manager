@@ -7,6 +7,7 @@ type Props = {
   containerIdx: number;
   issueIdx: number;
   issue?: Issue;
+  canBeEmpty?: boolean;
 };
 
 export default function IssueInputForm(props: Props) {
@@ -32,8 +33,12 @@ export default function IssueInputForm(props: Props) {
 
   function keyPressHandler(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
-      props.onSubmit(props.containerIdx, props.issueIdx, issue);
+      submitHandler();
     }
+  }
+
+  function submitHandler() {
+    props.onSubmit(props.containerIdx, props.issueIdx, issue);
   }
 
   return (
@@ -65,13 +70,7 @@ export default function IssueInputForm(props: Props) {
         />
       </div>
       <div className="button__wrapper mt-1">
-        <Button
-          clickHandler={() =>
-            props.onSubmit(props.containerIdx, props.issueIdx, issue)
-          }
-        >
-          Confirm
-        </Button>
+        <Button clickHandler={submitHandler}>Confirm</Button>
       </div>
       {/* <div className="task__priority">{props.priority}</div> */}
     </div>
