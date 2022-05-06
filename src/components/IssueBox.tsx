@@ -68,6 +68,7 @@ function IssueBox(props: TProps) {
               <Button
                 clickHandler={(event) => {
                   event?.stopPropagation();
+                  props?.disableDrag(false);
                   setIssueContextMenuVisibility(true);
                 }}
               >
