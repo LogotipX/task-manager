@@ -146,7 +146,7 @@ function App() {
   }
 
   return (
-    <div className="App min-h-screen relative overflow-hidden bg-slate-900">
+    <div className={`App min-h-screen relative overflow-hidden bg-slate-900 `}>
       {issueModalObject.containerIdx >= 0 ? (
         <IssueBoxModalWIndow
           issue={
@@ -154,6 +154,9 @@ function App() {
               issueModalObject["issueIdx"]
             ]
           }
+          containerIdx={issueModalObject.containerIdx}
+          issueIdx={issueModalObject.issueIdx}
+          getUpdatedIssue={editIssue}
           closeModal={() =>
             setIssueModalObject({ containerIdx: -1, issueIdx: -1 })
           }
