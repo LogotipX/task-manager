@@ -4,7 +4,7 @@ import Button from "./Button";
 import IssueInputForm from "./IssueInputForm";
 import IssueContextMenu from "./IssueContextMenu";
 
-import { Issue } from "../App";
+import { Issue } from "../api/types";
 
 type TProps = {
   type: string;

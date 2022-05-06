@@ -11,29 +11,11 @@ import DraggableTasksContainer from "./components/DraggableTasksContainer";
 import { reorderTasks, reorderContainers } from "./api/reorders";
 import IssueBoxModalWIndow from "./components/IssueBoxModalWindow";
 
-export type tasksContainerArr = {
-  taskContainerName: string;
-  issues: issueArr;
-}[];
-
-export type Issue = {
-  type: string;
-  title: string;
-  text: string;
-  isFormCreate?: boolean;
-};
-
-export type issueWrapperId = {
-  containerIdx: number;
-  issueIdx: number;
-  issue: Issue;
-};
-
-type issueArr = Issue[];
+import { Issue, TasksContainerArr } from "./api/types";
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
-  const [tasksContainerArr, setTasksContainerArr] = useState<tasksContainerArr>(
+  const [tasksContainerArr, setTasksContainerArr] = useState<TasksContainerArr>(
     []
   );
   const [hasCreateIssueBlock, setHasCreateIssueBlock] = useState(false);
@@ -49,7 +31,7 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("resize", getWindowWidth);
-    getIssues.then((res: tasksContainerArr) => {
+    getIssues.then((res: TasksContainerArr) => {
       setTasksContainerArr(res);
     });
 
@@ -69,7 +51,7 @@ function App() {
     );
 
     if (result.destination.droppableId.indexOf("containersDropzone") > -1) {
-      const reorderedContainers: tasksContainerArr = reorderContainers(
+      const reorderedContainers: TasksContainerArr = reorderContainers(
         reorderedTasksContainer,
         result.source.index,
         result.destination.index
@@ -78,7 +60,7 @@ function App() {
       return;
     }
 
-    const reorderedList: tasksContainerArr = reorderTasks(
+    const reorderedList: TasksContainerArr = reorderTasks(
       reorderedTasksContainer,
       result.source.index,
       result.destination.index,

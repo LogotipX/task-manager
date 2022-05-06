@@ -1,7 +1,7 @@
-import { tasksContainerArr } from "../App";
+import { TasksContainerArr } from "../api/types";
 
 export function reorderTasks(
-  list: tasksContainerArr,
+  list: TasksContainerArr,
   fromDragElIdx: number,
   toDragElIdx: number,
   fromContainer: number,
@@ -18,7 +18,7 @@ export function reorderTasks(
 }
 
 export function reorderContainers(
-  list: tasksContainerArr,
+  list: TasksContainerArr,
   fromDragElIdx: number,
   toDragElIdx: number
 ) {
