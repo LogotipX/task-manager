@@ -126,7 +126,10 @@ function App() {
   }
 
   return (
-    <div className={`App min-h-screen relative overflow-hidden bg-slate-900 `}>
+    <div
+      className={`App min-h-screen relative overflow-hidden bg-slate-900 `}
+      tabIndex={issueModalObject.containerIdx >= 0 ? -1 : 0}
+    >
       {issueModalObject.containerIdx >= 0 ? (
         <IssueBoxModalWIndow
           issue={
