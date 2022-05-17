@@ -12,6 +12,7 @@ import { reorderTasks, reorderContainers } from "./api/reorders";
 import IssueBoxModalWIndow from "./components/IssueBoxModalWindow";
 
 import { Issue, TasksContainerArr } from "./api/types";
+import Button from "./components/Button";
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -69,6 +70,13 @@ function App() {
     );
 
     setTasksContainerArr(reorderedList);
+  }
+
+  function createContainer() {
+    setTasksContainerArr([
+      ...tasksContainerArr,
+      { taskContainerName: "new container", issues: [] },
+    ]);
   }
 
   function createIssueBtn(containerId: number) {
@@ -226,6 +234,11 @@ function App() {
                       )
                     : null}
                   {providedContainers.placeholder}
+                  <div className="create-container__button px-1.5">
+                    <Button clickHandler={createContainer}>
+                      <div className="px-4">+</div>
+                    </Button>
+                  </div>
                 </div>
               )}
             </Droppable>
