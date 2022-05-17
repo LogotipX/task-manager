@@ -35,7 +35,7 @@ function IssueBox(props: TProps) {
     <>
       {issueEditFormVisibility ? (
         <IssueInputForm
-          getIdutedIssue={(editedIssue) => {
+          getEditedIssue={(editedIssue) => {
             setIssueEditFormVisibility(false);
             if (editedIssue !== undefined) {
               props.editIssue(editedIssue);

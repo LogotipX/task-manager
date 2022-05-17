@@ -3,7 +3,7 @@ import Button from "./Button";
 import { Issue } from "../api/types";
 
 type Props = {
-  getIdutedIssue?(editedIssue: Issue): void;
+  getEditedIssue?(editedIssue: Issue): void;
   issue?: Issue;
   canBeEmpty?: boolean;
 };
@@ -41,8 +41,8 @@ export default function IssueInputForm(props: Props) {
   }
 
   function submitHandler() {
-    if (props.getIdutedIssue) {
-      props.getIdutedIssue(editedIssue);
+    if (props.getEditedIssue) {
+      props.getEditedIssue(editedIssue);
     }
   }
 

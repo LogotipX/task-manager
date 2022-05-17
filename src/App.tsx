@@ -87,9 +87,9 @@ function App() {
   }
 
   function addIssueFromCreateForm(
-    containerIdx: number,
+    newIssue: Issue,
     issueIdx: number,
-    newIssue: Issue
+    containerIdx: number
   ) {
     if (!newIssue.title.length && !newIssue.text.length) return;
 
@@ -188,9 +188,15 @@ function App() {
                                             key={`${idx}-${issue.type}-${issue.title}`}
                                           >
                                             <IssueInputForm
-                                            // onSubmit={addIssueFromCreateForm}
-                                            // containerIdx={droppableIdx}
-                                            // issueIdx={idx}
+                                              getEditedIssue={(editedIssue) =>
+                                                addIssueFromCreateForm(
+                                                  editedIssue,
+                                                  idx,
+                                                  droppableIdx
+                                                )
+                                              }
+                                              // containerIdx={droppableIdx}
+                                              // issueIdx={idx}
                                             />
                                           </div>
                                         );
