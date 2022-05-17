@@ -68,7 +68,7 @@ function IssueBox(props: TProps) {
               <SvgDots className="fill-slate-50 w-6 z-10" />
             </Button>
             {issueContextMenuVisibility ? (
-              <div className="absolute left-0 top-8 z-10">
+              <div className="absolute right-0 top-8 z-10">
                 <IssueContextMenu
                   editIssue={() => {
                     setIssueEditFormVisibility(true);
@@ -85,7 +85,7 @@ function IssueBox(props: TProps) {
           <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
             {title}
           </div>
-          <div className="issue__text text-slate-100 break-words">{text}</div>
+          <div className="issue__text text-slate-100">{text}</div>
           {/* <div className="task__priority">{props.priority}</div> */}
         </div>
       )}
