@@ -127,7 +127,7 @@ function App() {
 
   return (
     <div
-      className={`App min-h-screen relative overflow-hidden bg-slate-900 `}
+      className={`App relative h-screen min-h-screen overflow-hidden bg-slate-900 `}
       tabIndex={issueModalObject.containerIdx >= 0 ? -1 : 0}
     >
       {issueModalObject.containerIdx >= 0 ? (
@@ -148,80 +148,84 @@ function App() {
       <header className="w-full text-slate-100 h-12 bg-slate-700 shadow-md">
         {width}
       </header>
-      <DragDropContext onDragEnd={dragEndHandler}>
-        <Droppable
-          droppableId={"containersDropzone"}
-          direction="horizontal"
-          type="container"
-        >
-          {(providedContainers, snapshot) => (
-            <div
-              {...providedContainers.droppableProps}
-              ref={providedContainers.innerRef}
-              className={`container-for-TasksContainers flex flex-row flex-nowrap relative overflow-x-scroll min-h-fit text-slate-50 border-b-2 border-slate-400 not-xs:px-1.5 pt-5 px-1 pb-2`}
+      <div className="h-[calc(100%-48px)]">
+        <div className="tasks-list overflow-auto h-full">
+          <DragDropContext onDragEnd={dragEndHandler}>
+            <Droppable
+              droppableId={"containersDropzone"}
+              direction="horizontal"
+              type="container"
             >
-              {tasksContainerArr.length
-                ? tasksContainerArr.map(
-                    ({ taskContainerName, issues }, droppableIdx) => {
-                      return (
-                        <div
-                          className={`task-container-wrapper min-h-full xs:w-11/12 child:mr-2 ${
-                            droppableIdx === tasksContainerArr.length - 1
-                              ? "child:mr-0"
-                              : null
-                          }`}
-                          key={`${taskContainerName}-${droppableIdx}`}
-                        >
-                          <DraggableTasksContainer
-                            containerName={taskContainerName}
-                            droppableId={droppableIdx}
-                            tasksDragEndHandler={dragEndHandler}
-                            createIssue={createIssueBtn}
-                          >
-                            {issues.length
-                              ? issues.map((issue, idx) => {
-                                  if (issue.isFormCreate) {
-                                    return (
-                                      <div
-                                        key={`${idx}-${issue.type}-${issue.title}`}
-                                      >
-                                        <IssueInputForm
-                                          onSubmit={addIssueFromCreateForm}
-                                          containerIdx={droppableIdx}
-                                          issueIdx={idx}
-                                        />
-                                      </div>
-                                    );
-                                  } else
-                                    return (
-                                      <DraggableIssueBox
-                                        draggableId={`task-${droppableIdx}-${idx}`}
-                                        idx={idx}
-                                        containerIdx={droppableIdx}
-                                        issue={{ ...issue }}
-                                        key={`${idx}-${issue.type}-${issue.title}`}
-                                        removeIssue={(issueId) =>
-                                          removeIssue(droppableIdx, issueId)
-                                        }
-                                        editIssue={editIssue}
-                                        onClick={() =>
-                                          showIssueModal(droppableIdx, idx)
-                                        }
-                                      />
-                                    );
-                                })
-                              : null}
-                          </DraggableTasksContainer>
-                        </div>
-                      );
-                    }
-                  )
-                : null}
-              {providedContainers.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+              {(providedContainers, snapshot) => (
+                <div
+                  {...providedContainers.droppableProps}
+                  ref={providedContainers.innerRef}
+                  className={`container-for-TasksContainers flex flex-row flex-nowrap relative min-h-fit text-slate-50 border-b-2 border-slate-400 not-xs:px-1.5 pt-5 px-1 pb-2`}
+                >
+                  {tasksContainerArr.length
+                    ? tasksContainerArr.map(
+                        ({ taskContainerName, issues }, droppableIdx) => {
+                          return (
+                            <div
+                              className={`task-container-wrapper min-h-full xs:w-11/12 child:mr-2 ${
+                                droppableIdx === tasksContainerArr.length - 1
+                                  ? "child:mr-0"
+                                  : null
+                              }`}
+                              key={`${taskContainerName}-${droppableIdx}`}
+                            >
+                              <DraggableTasksContainer
+                                containerName={taskContainerName}
+                                droppableId={droppableIdx}
+                                tasksDragEndHandler={dragEndHandler}
+                                createIssue={createIssueBtn}
+                              >
+                                {issues.length
+                                  ? issues.map((issue, idx) => {
+                                      if (issue.isFormCreate) {
+                                        return (
+                                          <div
+                                            key={`${idx}-${issue.type}-${issue.title}`}
+                                          >
+                                            <IssueInputForm
+                                              onSubmit={addIssueFromCreateForm}
+                                              containerIdx={droppableIdx}
+                                              issueIdx={idx}
+                                            />
+                                          </div>
+                                        );
+                                      } else
+                                        return (
+                                          <DraggableIssueBox
+                                            draggableId={`task-${droppableIdx}-${idx}`}
+                                            idx={idx}
+                                            containerIdx={droppableIdx}
+                                            issue={{ ...issue }}
+                                            key={`${idx}-${issue.type}-${issue.title}`}
+                                            removeIssue={(issueId) =>
+                                              removeIssue(droppableIdx, issueId)
+                                            }
+                                            editIssue={editIssue}
+                                            onClick={() =>
+                                              showIssueModal(droppableIdx, idx)
+                                            }
+                                          />
+                                        );
+                                    })
+                                  : null}
+                              </DraggableTasksContainer>
+                            </div>
+                          );
+                        }
+                      )
+                    : null}
+                  {providedContainers.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+      </div>
     </div>
   );
 }

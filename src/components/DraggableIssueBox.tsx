@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 import IssueBox from "./IssueBox";
@@ -15,8 +15,6 @@ type TProps = {
 };
 
 export default function DraggableIssueBox(props: TProps) {
-  const [disableDrag, setDisableDrag] = useState(false);
-
   function editIssue(
     containerIdx: number,
     issueIdx: number,
@@ -31,11 +29,7 @@ export default function DraggableIssueBox(props: TProps) {
   }
 
   return (
-    <Draggable
-      draggableId={props.draggableId}
-      index={props.idx}
-      isDragDisabled={disableDrag}
-    >
+    <Draggable draggableId={props.draggableId} index={props.idx}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -46,7 +40,6 @@ export default function DraggableIssueBox(props: TProps) {
             type={props.issue.type}
             title={props.issue.title}
             text={props.issue.text}
-            disableDrag={setDisableDrag}
             removeIssue={removeIssue}
             issueIdx={props.idx}
             containerIdx={props.containerIdx}
