@@ -3,25 +3,28 @@ import Button from "./Button";
 import { Issue } from "../api/types";
 
 type Props = {
-  onSubmit(containerIdx: number, issueIdx: number, issue?: Issue): void;
-  containerIdx: number;
-  issueIdx: number;
+  getIdutedIssue?(editedIssue: Issue): void;
   issue?: Issue;
   canBeEmpty?: boolean;
 };
 
 export default function IssueInputForm(props: Props) {
+  const [type, setType] = useState("Task");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
 
-  const issue: Issue = {
-    type: "Task",
+  const editedIssue: Issue = {
+    type,
     title,
     text,
     // priority: "some priority",
   };
 
   useEffect(() => {
+    if (props.issue?.type !== undefined) {
+      setType(props.issue.type);
+    }
+
     if (props.issue?.title !== undefined) {
       setTitle(props.issue.title);
     }
@@ -29,7 +32,7 @@ export default function IssueInputForm(props: Props) {
     if (props.issue?.text !== undefined) {
       setText(props.issue.text);
     }
-  }, [props.issue?.title, props.issue?.text]);
+  }, [props.issue?.title, props.issue?.text, props.issue?.type]);
 
   function keyPressHandler(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
@@ -38,7 +41,9 @@ export default function IssueInputForm(props: Props) {
   }
 
   function submitHandler() {
-    props.onSubmit(props.containerIdx, props.issueIdx, issue);
+    if (props.getIdutedIssue) {
+      props.getIdutedIssue(editedIssue);
+    }
   }
 
   return (

@@ -188,9 +188,9 @@ function App() {
                                             key={`${idx}-${issue.type}-${issue.title}`}
                                           >
                                             <IssueInputForm
-                                              onSubmit={addIssueFromCreateForm}
-                                              containerIdx={droppableIdx}
-                                              issueIdx={idx}
+                                            // onSubmit={addIssueFromCreateForm}
+                                            // containerIdx={droppableIdx}
+                                            // issueIdx={idx}
                                             />
                                           </div>
                                         );
@@ -198,7 +198,7 @@ function App() {
                                         return (
                                           <DraggableIssueBox
                                             draggableId={`task-${droppableIdx}-${idx}`}
-                                            idx={idx}
+                                            issueIdx={idx}
                                             containerIdx={droppableIdx}
                                             issue={{ ...issue }}
                                             key={`${idx}-${issue.type}-${issue.title}`}

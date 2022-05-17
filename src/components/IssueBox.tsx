@@ -10,10 +10,8 @@ type TProps = {
   type: string;
   title: string;
   text: string;
-  issueIdx: number;
-  containerIdx: number;
   // priority: string;
-  editIssue(containerIdx: number, issueIdx: number, newIssue: Issue): void;
+  editIssue(editedIssue: Issue): void;
   removeIssue(): void;
   onClick(): void;
 };
@@ -37,14 +35,12 @@ function IssueBox(props: TProps) {
     <>
       {issueEditFormVisibility ? (
         <IssueInputForm
-          onSubmit={(containerIdx, issueIdx, editedIssue) => {
+          getIdutedIssue={(editedIssue) => {
             setIssueEditFormVisibility(false);
             if (editedIssue !== undefined) {
-              props.editIssue(containerIdx, issueIdx, editedIssue);
+              props.editIssue(editedIssue);
             }
           }}
-          containerIdx={props.containerIdx}
-          issueIdx={props.issueIdx}
           issue={{
             type,
             title,

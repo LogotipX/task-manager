@@ -8,28 +8,24 @@ type TProps = {
   draggableId: string;
   editIssue(containerIdx: number, issueIdx: number, newIssue: Issue): void;
   removeIssue(issueId: number): void;
-  idx: number;
+  issueIdx: number;
   containerIdx: number;
   issue: Issue;
   onClick(): void;
 };
 
 export default function DraggableIssueBox(props: TProps) {
-  function editIssue(
-    containerIdx: number,
-    issueIdx: number,
-    editedIssue: Issue
-  ) {
+  function editIssue(editedIssue: Issue) {
     // props.editIssue(editedIssue);
-    props.editIssue(containerIdx, issueIdx, editedIssue);
+    props.editIssue(props.containerIdx, props.issueIdx, editedIssue);
   }
 
   function removeIssue() {
-    props.removeIssue(props.idx);
+    props.removeIssue(props.issueIdx);
   }
 
   return (
-    <Draggable draggableId={props.draggableId} index={props.idx}>
+    <Draggable draggableId={props.draggableId} index={props.issueIdx}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -41,8 +37,6 @@ export default function DraggableIssueBox(props: TProps) {
             title={props.issue.title}
             text={props.issue.text}
             removeIssue={removeIssue}
-            issueIdx={props.idx}
-            containerIdx={props.containerIdx}
             editIssue={editIssue}
             onClick={props.onClick}
           />
