@@ -80,6 +80,13 @@ function App() {
     ]);
   }
 
+  function changeContainerName(containerId: number, newName: string) {
+    const changedTasksContainerArr = tasksContainerArr.slice(0, tasksContainerArr.length);
+    changedTasksContainerArr[containerId].taskContainerName = newName;
+
+    setTasksContainerArr(changedTasksContainerArr);
+  }
+
   function createIssueBtn(containerId: number) {
     if (hasCreateIssueBlock) return;
 
@@ -188,6 +195,7 @@ function App() {
                                 droppableId={droppableIdx}
                                 tasksDragEndHandler={dragEndHandler}
                                 createIssue={createIssueBtn}
+                                changeContainerName={(newName) => changeContainerName(droppableIdx, newName)}
                               >
                                 {issues.length
                                   ? issues.map((issue, idx) => {

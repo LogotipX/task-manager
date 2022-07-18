@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import TasksContainer from "./TasksContainer";
 import { DropResult } from "react-beautiful-dnd";
+import OneLineInput from "../OneLineInput";
 
 type Props = {
   className?: string;
@@ -11,10 +12,24 @@ type Props = {
   tasksDragEndHandler?(result: DropResult): void;
   containersDragEndHandler?(result: DropResult): void;
   createIssue(containerId: any): any;
+  changeContainerName(newContainerName: string): void;
 };
 
 export default function DraggableTasksContainer(props: Props) {
-  const [visibility, setVisibility] = useState(false);
+  const [createIssueBtnSeen, setCreateIssueBtnSeen] = useState(false);
+  const [editContainerName, setEditContainerName] = useState(false);
+  const [newContainerName, setNewContainerName] = useState(props.containerName || "");
+
+  function enterKeyPressHandler(event: React.KeyboardEvent) {
+    if (event.key === "Enter") {
+      changeContainerNameHandler(newContainerName);
+    }
+  }
+
+  const changeContainerNameHandler = (newName: string) => {
+    props.changeContainerName(newName);
+    setEditContainerName(false);
+  }
 
   return (
     <Draggable
@@ -26,22 +41,25 @@ export default function DraggableTasksContainer(props: Props) {
           ref={providedContainers.innerRef}
           {...providedContainers.draggableProps}
           // {...providedContainers.dragHandleProps}
-          onMouseEnter={() => setVisibility(true)}
-          onMouseLeave={() => setVisibility(false)}
+          onMouseEnter={() => setCreateIssueBtnSeen(true)}
+          onMouseLeave={() => setCreateIssueBtnSeen(false)}
           className={`${props.className} task-container relative p-1 text-sm h-full min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
         >
           <div
             ref={providedContainers.innerRef}
             // {...providedContainers.draggableProps}
             {...providedContainers.dragHandleProps}
-            className="container__name uppercase pl-2 pt-2"
+            className="container__name uppercase p-2"
+            onDoubleClick={() => setEditContainerName(true)}
           >
-            {props.containerName}
+            {editContainerName ? 
+            <OneLineInput title={newContainerName} setTitle={(newName) => setNewContainerName(newName)} enterKeyPressHandler={enterKeyPressHandler} />
+            : props.containerName}
           </div>
           <TasksContainer
             droppableId={props.droppableId}
             createIssue={props.createIssue}
-            containerHover={visibility}
+            containerHover={createIssueBtnSeen}
           >
             {props.children}
           </TasksContainer>
