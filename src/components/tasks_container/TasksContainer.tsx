@@ -24,7 +24,7 @@ export default function TasksContainer(props: TProps) {
       >
         {(provided, snapshot) => (
           <div
-            className={`droppable-container child:mt-2 h-[91%] rounded-sm`}
+            className={`droppable-container h-[calc(100%-39px)] child:mt-2 rounded-sm`}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >

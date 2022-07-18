@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Issue } from "../../api/types";
 
@@ -17,42 +17,69 @@ type Props = {
 export default function IssueBoxModalWIndow(props: Props) {
   const [title, setTitle] = useState(props.issue.title);
   const [text, setText] = useState(props.issue.text);
+  const [commentText, setCommentText] = useState("");
 
   const [isReductTitle, setIsReductTitle] = useState(false);
   const [isReductText, setIsReductText] = useState(false);
+
+  useEffect(() => {
+    setTitle(title.trim());
+    setText(text.trim());
+    setCommentText(commentText.trim());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isReductTitle, isReductText]);
 
   function keyPressHandler(event: React.KeyboardEvent) {
     if (event.shiftKey && event.key === "Enter") {
       event.currentTarget.nodeValue += `\n`;
       return;
     }
+    switch (event.key) {
+      case "Tab":
+        event.stopPropagation();
+        event.preventDefault();
+        break;
+      case "Enter":
+        event.preventDefault();
+        setIsReductTitle(false);
+        setIsReductText(false);
+        break;
+      case "Escape":
+        closeModal();
+    }
+  }
 
-    if (event.key === "Enter") {
-      event.preventDefault();
-      setIsReductTitle(false);
-      setIsReductText(false);
-      return;
+  function closeModal(event?: React.MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+      if (title.length === 0 && text.length === 0) {
+        return;
+      }
+
+      if (event.target === event.currentTarget) {
+        props.getUpdatedIssue(props.containerIdx, props.issueIdx, {
+          type: "Task",
+          title,
+          text,
+        });
+        props.closeModal();
+      }
+    } else {
+      props.getUpdatedIssue(props.containerIdx, props.issueIdx, {
+        type: "Task",
+        title: title.trim(),
+        text: text.trim(),
+      });
+      props.closeModal();
     }
   }
 
   return (
     <>
       <div
-        onClick={(event) => {
-          event.stopPropagation();
-          if (title.length === 0 && text.length === 0) {
-            return;
-          }
-
-          if (event.target === event.currentTarget) {
-            props.getUpdatedIssue(props.containerIdx, props.issueIdx, {
-              type: "Task",
-              title,
-              text,
-            });
-            props.closeModal();
-          }
-        }}
+        onClick={closeModal}
+        onKeyDown={keyPressHandler}
+        tabIndex={0}
         className="modal-window bg-slate-900 bg-opacity-75 flex flex-col absolute w-full h-full min-w-screen min-h-screen z-50 top-0 left-0"
       >
         <div
@@ -84,7 +111,7 @@ export default function IssueBoxModalWIndow(props: Props) {
               ) : (
                 <div
                   onClick={() => setIsReductTitle(true)}
-                  className="issue-info__title text-xl min-h-[44px] rounded-sm cursor-text hover:bg-slate-600"
+                  className="issue-info__title text-xl min-h-[44px] rounded-sm cursor-text bg-slate-600 hover:bg-slate-500"
                 >
                   {title}
                 </div>
@@ -103,14 +130,26 @@ export default function IssueBoxModalWIndow(props: Props) {
               ) : (
                 <div
                   onClick={() => setIsReductText(true)}
-                  className="issue-info__text overflow-scroll cursor-text hover:bg-slate-600 mt-2"
+                  className="issue-info__text overflow-scroll cursor-text bg-slate-600 hover:bg-slate-500 mt-2"
                 >
                   {text}
                 </div>
               )}
             </div>
             <div className="issue-info__sidebar row-span-2"></div>
-            <div className="issue-info__comments">comments</div>
+            <div className="issue-info__comments">
+              comments
+              <textarea
+                className="bg-slate-500 rounded-sm p-1 mt-2 w-full max-h-full resize-none"
+                placeholder="Issue text"
+                required={true}
+                value={commentText}
+                maxLength={255}
+                onChange={(input) => setCommentText(input.target.value)}
+                onKeyDown={keyPressHandler}
+                autoFocus
+              />
+            </div>
           </div>
         </div>
       </div>

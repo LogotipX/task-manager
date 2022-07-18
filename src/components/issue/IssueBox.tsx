@@ -10,11 +10,8 @@ type TProps = {
   type: string;
   title: string;
   text: string;
-  issueIdx: number;
-  containerIdx: number;
   // priority: string;
-  disableDrag(param: boolean): void;
-  editIssue(containerIdx: number, issueIdx: number, newIssue: Issue): void;
+  editIssue(editedIssue: Issue): void;
   removeIssue(): void;
   onClick(): void;
 };
@@ -38,14 +35,12 @@ function IssueBox(props: TProps) {
     <>
       {issueEditFormVisibility ? (
         <IssueInputForm
-          onSubmit={(containerIdx, issueIdx, editedIssue) => {
+          getEditedIssue={(editedIssue) => {
             setIssueEditFormVisibility(false);
             if (editedIssue !== undefined) {
-              props.editIssue(containerIdx, issueIdx, editedIssue);
+              props.editIssue(editedIssue);
             }
           }}
-          containerIdx={props.containerIdx}
-          issueIdx={props.issueIdx}
           issue={{
             type,
             title,
@@ -58,23 +53,22 @@ function IssueBox(props: TProps) {
           onClick={props.onClick}
           onDoubleClick={() => setIssueEditFormVisibility(true)}
         >
-          <div className="issue-box__header flex justify-between">
-            <div className="issue__type text-slate-300">{type}</div>
-            <div
-              onMouseEnter={() => props?.disableDrag(true)}
-              onMouseLeave={() => props?.disableDrag(false)}
-              className="issue-box__settings"
+          <div
+            className={`issue-box__settings absolute top-3 right-2 ${
+              issueContextMenuVisibility ? "bg-slate-800" : null
+            }`}
+            onMouseEnter={(event) => event.stopPropagation()}
+          >
+            <Button
+              clickHandler={(event) => {
+                event?.stopPropagation();
+                setIssueContextMenuVisibility(true);
+              }}
             >
-              <Button
-                clickHandler={(event) => {
-                  event?.stopPropagation();
-                  props?.disableDrag(false);
-                  setIssueContextMenuVisibility(true);
-                }}
-              >
-                <SvgDots className="fill-slate-50 w-6 z-10" />
-              </Button>
-              {issueContextMenuVisibility ? (
+              <SvgDots className="fill-slate-50 w-6 z-10" />
+            </Button>
+            {issueContextMenuVisibility ? (
+              <div className="absolute right-0 top-8 z-10">
                 <IssueContextMenu
                   editIssue={() => {
                     setIssueEditFormVisibility(true);
@@ -83,16 +77,16 @@ function IssueBox(props: TProps) {
                   onCancel={() => setIssueContextMenuVisibility(false)}
                   removeIssue={props.removeIssue}
                 />
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </div>
-          <div className={`issue`}>
-            <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
-              {title}
-            </div>
-            <div className="issue__text text-slate-100 break-words">{text}</div>
-            {/* <div className="task__priority">{props.priority}</div> */}
+
+          <div className="issue__type text-slate-300">{type}</div>
+          <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
+            {title}
           </div>
+          <div className="issue__text text-slate-100">{text}</div>
+          {/* <div className="task__priority">{props.priority}</div> */}
         </div>
       )}
     </>

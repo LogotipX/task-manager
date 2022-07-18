@@ -3,33 +3,30 @@ import Button from "../Button";
 import { Issue } from "../../api/types";
 
 type Props = {
-  onSubmit(containerIdx: number, issueIdx: number, issue?: Issue): void;
-  containerIdx: number;
-  issueIdx: number;
+  getEditedIssue?(editedIssue: Issue): void;
   issue?: Issue;
   canBeEmpty?: boolean;
 };
 
 export default function IssueInputForm(props: Props) {
+  const [type, setType] = useState("Task");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
 
-  const issue: Issue = {
-    type: "Task",
+  const editedIssue: Issue = {
+    type,
     title,
     text,
     // priority: "some priority",
   };
 
   useEffect(() => {
-    if (props.issue?.title !== undefined) {
+    if (props.issue) {
+      setType(props.issue.type);
       setTitle(props.issue.title);
-    }
-
-    if (props.issue?.text !== undefined) {
       setText(props.issue.text);
     }
-  }, [props.issue?.title, props.issue?.text]);
+  }, [props.issue]);
 
   function keyPressHandler(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
@@ -38,7 +35,9 @@ export default function IssueInputForm(props: Props) {
   }
 
   function submitHandler() {
-    props.onSubmit(props.containerIdx, props.issueIdx, issue);
+    if (props.getEditedIssue) {
+      props.getEditedIssue(editedIssue);
+    }
   }
 
   return (
@@ -60,9 +59,8 @@ export default function IssueInputForm(props: Props) {
         <textarea
           className="bg-slate-500 rounded-sm p-1 w-full"
           placeholder="Issue text"
-          required={true}
           cols={2}
-          rows={2}
+          rows={3}
           value={text}
           maxLength={255}
           onChange={(input) => setText(input.target.value)}
