@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button";
 import { Issue } from "../../api/types";
+import OneLineInput from "../OneLineInput";
 
 type Props = {
   getEditedIssue?(editedIssue: Issue): void;
@@ -44,16 +45,7 @@ export default function IssueInputForm(props: Props) {
     <div className={"issue-box rounded-sm bg-slate-700 px-2 py-3"}>
       <div className="issue__type text-slate-300">Type</div>
       <div className="task__title pt-1 font-bold text-slate-100 text-base">
-        <input
-          className="bg-slate-500 rounded-sm p-1 w-full"
-          type="text"
-          autoFocus
-          placeholder="Issue title"
-          value={title}
-          maxLength={64}
-          onChange={(input) => setTitle(input.target.value)}
-          onKeyDown={keyPressHandler}
-        />
+        <OneLineInput title={title} setTitle={setTitle} enterKeyPressHandler={keyPressHandler} />
       </div>
       <div className="task__text text-slate-100 mt-2">
         <textarea
