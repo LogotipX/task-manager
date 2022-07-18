@@ -45,7 +45,7 @@ export default function IssueInputForm(props: Props) {
     <div className={"issue-box rounded-sm bg-slate-700 px-2 py-3"}>
       <div className="issue__type text-slate-300">Type</div>
       <div className="task__title pt-1 font-bold text-slate-100 text-base">
-        <OneLineInput title={title} setTitle={setTitle} enterKeyPressHandler={keyPressHandler} />
+        <OneLineInput value={title} setValue={setTitle} enterKeyPressHandler={keyPressHandler} />
       </div>
       <div className="task__text text-slate-100 mt-2">
         <textarea

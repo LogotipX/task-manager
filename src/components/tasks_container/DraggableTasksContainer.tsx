@@ -6,7 +6,7 @@ import OneLineInput from "../OneLineInput";
 
 type Props = {
   className?: string;
-  containerName?: string;
+  containerName: string;
   children?: React.ReactNode;
   droppableId: number;
   tasksDragEndHandler?(result: DropResult): void;
@@ -18,17 +18,22 @@ type Props = {
 export default function DraggableTasksContainer(props: Props) {
   const [createIssueBtnSeen, setCreateIssueBtnSeen] = useState(false);
   const [editContainerName, setEditContainerName] = useState(false);
-  const [newContainerName, setNewContainerName] = useState(props.containerName || "");
+  const [newContainerName, setNewContainerName] = useState(props.containerName);
 
   function enterKeyPressHandler(event: React.KeyboardEvent) {
     if (event.key === "Enter") {
-      changeContainerNameHandler(newContainerName);
+      changeContainerNameHandler();
     }
   }
 
-  const changeContainerNameHandler = (newName: string) => {
-    props.changeContainerName(newName);
+  function changeContainerNameHandler() {
     setEditContainerName(false);
+
+    if (newContainerName.length > 0) {
+      props.changeContainerName(newContainerName);
+    } else {
+      setNewContainerName(props.containerName);
+    }
   }
 
   return (
@@ -52,9 +57,16 @@ export default function DraggableTasksContainer(props: Props) {
             className="container__name uppercase p-2"
             onDoubleClick={() => setEditContainerName(true)}
           >
-            {editContainerName ? 
-            <OneLineInput title={newContainerName} setTitle={(newName) => setNewContainerName(newName)} enterKeyPressHandler={enterKeyPressHandler} />
-            : props.containerName}
+            {editContainerName ? (
+              <OneLineInput
+                value={newContainerName}
+                setValue={setNewContainerName}
+                enterKeyPressHandler={enterKeyPressHandler}
+                onFocusOut={() => changeContainerNameHandler()}
+              />
+            ) : (
+              props.containerName
+            )}
           </div>
           <TasksContainer
             droppableId={props.droppableId}
