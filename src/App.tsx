@@ -4,12 +4,12 @@ import "./App.scss";
 
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
-import DraggableIssueBox from "./components/DraggableIssueBox";
+import DraggableIssueBox from "./components/issue/DraggableIssueBox";
 import getIssues from "./api/api";
-import IssueInputForm from "./components/IssueInputForm";
-import DraggableTasksContainer from "./components/DraggableTasksContainer";
+import IssueInputForm from "./components/issue/IssueInputForm";
+import DraggableTasksContainer from "./components/tasks_container/DraggableTasksContainer";
 import { reorderTasks, reorderContainers } from "./api/reorders";
-import IssueBoxModalWIndow from "./components/IssueBoxModalWindow";
+import IssueBoxModalWIndow from "./components/modals/IssueBoxModalWindow";
 
 import { Issue, TasksContainerArr } from "./api/types";
 
@@ -31,6 +31,7 @@ function App() {
 
   useEffect(() => {
     window.addEventListener("resize", getWindowWidth);
+
     getIssues.then((res: TasksContainerArr) => {
       setTasksContainerArr(res);
     });

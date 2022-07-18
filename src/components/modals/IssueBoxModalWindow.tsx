@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Issue } from "../api/types";
+import { Issue } from "../../api/types";
 
 type Props = {
   issue: Issue;

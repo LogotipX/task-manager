@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
 import IssueBox from "./IssueBox";
-import { Issue } from "../api/types";
+import { Issue } from "../../api/types";
 
 type TProps = {
   draggableId: string;

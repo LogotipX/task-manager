@@ -1,6 +1,6 @@
 import React from "react";
 import { Droppable, DropResult } from "react-beautiful-dnd";
-import Button from "./Button";
+import Button from "../Button";
 
 type TProps = {
   className?: string;

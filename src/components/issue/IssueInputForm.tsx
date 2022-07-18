@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Button from "./Button";
-import { Issue } from "../api/types";
+import Button from "../Button";
+import { Issue } from "../../api/types";
 
 type Props = {
   onSubmit(containerIdx: number, issueIdx: number, issue?: Issue): void;

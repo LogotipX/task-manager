@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import SvgDots from "../icons/dots-3";
-import Button from "./Button";
+import SvgDots from "../../icons/dots-3";
+import Button from "../Button";
 import IssueInputForm from "./IssueInputForm";
 import IssueContextMenu from "./IssueContextMenu";
 
-import { Issue } from "../api/types";
+import { Issue } from "../../api/types";
 
 type TProps = {
   type: string;
