@@ -183,11 +183,7 @@ function App() {
                         ({ taskContainerName, issues }, droppableIdx) => {
                           return (
                             <div
-                              className={`task-container-wrapper min-h-full xs:w-11/12 child:mr-2 ${
-                                droppableIdx === tasksContainerArr.length - 1
-                                  ? "child:mr-0"
-                                  : null
-                              }`}
+                              className={`task-container-wrapper min-h-full xs:w-11/12 child:mr-2`}
                               key={`${taskContainerName}-${droppableIdx}`}
                             >
                               <DraggableTasksContainer
@@ -243,7 +239,7 @@ function App() {
                       )
                     : null}
                   {providedContainers.placeholder}
-                  <div className="create-container__button px-1.5">
+                  <div className="create-container__button">
                     <Button clickHandler={createContainer}>
                       <div className="px-4">+</div>
                     </Button>
