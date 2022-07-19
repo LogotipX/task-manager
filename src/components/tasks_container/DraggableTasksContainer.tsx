@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import TasksContainer from "./TasksContainer";
 import { DropResult } from "react-beautiful-dnd";
@@ -54,9 +54,12 @@ export default function DraggableTasksContainer(props: Props) {
             ref={providedContainers.innerRef}
             // {...providedContainers.draggableProps}
             {...providedContainers.dragHandleProps}
-            className="container__name uppercase p-2"
+            className="container__name uppercase py-2"
             onDoubleClick={() => setEditContainerName(true)}
           >
+            <span className="children-counter px-2 py-1 mr-1 rounded-sm bg-slate-900">
+              {Children.count(props.children)}
+            </span>
             {editContainerName ? (
               <OneLineInput
                 value={newContainerName}
