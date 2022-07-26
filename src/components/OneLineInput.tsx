@@ -5,12 +5,15 @@ type Props = {
   setValue(title: string): void;
   enterKeyPressHandler(event: React.KeyboardEvent): void;
   onFocusOut?(): void;
+  className?: string;
 };
 
 export default function OneLineInput(props: Props) {
   return (
     <input
-      className="bg-slate-500 rounded-sm p-1 w-full"
+      className={`${
+        props.className ? props.className : ""
+      } bg-slate-500 rounded-sm p-1 w-full`}
       id="OneLineInput"
       type="text"
       autoFocus

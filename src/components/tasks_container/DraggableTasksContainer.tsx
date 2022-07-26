@@ -3,6 +3,8 @@ import { Draggable } from "react-beautiful-dnd";
 import TasksContainer from "./TasksContainer";
 import { DropResult } from "react-beautiful-dnd";
 import OneLineInput from "../OneLineInput";
+import Button from "../Button";
+import SvgDots from "../../icons/dots-3";
 
 type Props = {
   className?: string;
@@ -54,21 +56,37 @@ export default function DraggableTasksContainer(props: Props) {
             ref={providedContainers.innerRef}
             // {...providedContainers.draggableProps}
             {...providedContainers.dragHandleProps}
-            className="container__name uppercase py-2"
             onDoubleClick={() => setEditContainerName(true)}
           >
-            <span className="children-counter px-2 py-1 mr-1 rounded-sm bg-slate-900">
-              {Children.count(props.children)}
-            </span>
             {editContainerName ? (
-              <OneLineInput
-                value={newContainerName}
-                setValue={setNewContainerName}
-                enterKeyPressHandler={enterKeyPressHandler}
-                onFocusOut={() => changeContainerNameHandler()}
-              />
+              <div className="container__name flex pb-[2px]">
+                <OneLineInput
+                  value={newContainerName}
+                  setValue={setNewContainerName}
+                  enterKeyPressHandler={enterKeyPressHandler}
+                  onFocusOut={() => changeContainerNameHandler()}
+                  className="container__name flex text-lg p-2 outline-none"
+                />
+              </div>
             ) : (
-              props.containerName
+              <div className="container__name flex uppercase py-2">
+                <span className="children-counter px-2 py-1 rounded-sm bg-slate-900">
+                  {Children.count(props.children)}
+                </span>
+                <div className="container-name self-center w-full pl-1 hover:bg-slate-700 hover:cursor-text">
+                  {props.containerName}
+                </div>
+                <span className="inline-block float-right">
+                  <Button
+                    clickHandler={(event) => {
+                      event?.stopPropagation();
+                      console.log("click");
+                    }}
+                  >
+                    <SvgDots className="fill-slate-50 w-6 z-10" />
+                  </Button>
+                </span>
+              </div>
             )}
           </div>
           <TasksContainer
