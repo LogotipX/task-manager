@@ -18,7 +18,8 @@ type Props = {
 };
 
 export default function DraggableTasksContainer(props: Props) {
-  const [createIssueBtnSeen, setCreateIssueBtnSeen] = useState(false);
+  const [containerHover, setContainerHover] = useState(false);
+  const [containerHeaderHover, setContainerHeaderHover] = useState(false);
   const [editContainerName, setEditContainerName] = useState(false);
   const [newContainerName, setNewContainerName] = useState(props.containerName);
 
@@ -48,8 +49,8 @@ export default function DraggableTasksContainer(props: Props) {
           ref={providedContainers.innerRef}
           {...providedContainers.draggableProps}
           // {...providedContainers.dragHandleProps}
-          onMouseEnter={() => setCreateIssueBtnSeen(true)}
-          onMouseLeave={() => setCreateIssueBtnSeen(false)}
+          onMouseEnter={() => setContainerHover(true)}
+          onMouseLeave={() => setContainerHover(false)}
           className={`${props.className} task-container relative p-1 text-sm h-full min-h-max w-72 text-slate-100 bg-slate-800 border-2 border-dashed border-slate-400 rounded-sm`}
         >
           <div
@@ -69,30 +70,36 @@ export default function DraggableTasksContainer(props: Props) {
                 />
               </div>
             ) : (
-              <div className="container__name flex uppercase py-2">
-                <span className="children-counter px-2 py-1 rounded-sm bg-slate-900">
+              <div
+                onMouseEnter={() => setContainerHeaderHover(true)}
+                onMouseLeave={() => setContainerHeaderHover(false)}
+                className="container__name h-12 flex uppercase py-2"
+              >
+                <span className="children-counter self-center px-2 py-1 rounded-sm bg-slate-900">
                   {Children.count(props.children)}
                 </span>
                 <div className="container-name self-center w-full pl-1 hover:bg-slate-700 hover:cursor-text">
                   {props.containerName}
                 </div>
-                <span className="inline-block float-right">
-                  <Button
-                    clickHandler={(event) => {
-                      event?.stopPropagation();
-                      console.log("click");
-                    }}
-                  >
-                    <SvgDots className="fill-slate-50 w-6 z-10" />
-                  </Button>
-                </span>
+                {containerHeaderHover ? (
+                  <span className="inline-block float-right">
+                    <Button
+                      clickHandler={(event) => {
+                        event?.stopPropagation();
+                        console.log("click");
+                      }}
+                    >
+                      <SvgDots className="fill-slate-50 w-6 z-10" />
+                    </Button>
+                  </span>
+                ) : null}
               </div>
             )}
           </div>
           <TasksContainer
             droppableId={props.droppableId}
             createIssue={props.createIssue}
-            containerHover={createIssueBtnSeen}
+            containerHover={containerHover}
           >
             {props.children}
           </TasksContainer>

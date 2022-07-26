@@ -30,6 +30,7 @@ function IssueBox(props: TProps) {
   const [issueContextMenuVisibility, setIssueContextMenuVisibility] =
     useState(false);
   const [issueEditFormVisibility, setIssueEditFormVisibility] = useState(false);
+  const [issueBoxHover, setIssueBoxHover] = useState(false);
 
   return (
     <>
@@ -52,6 +53,8 @@ function IssueBox(props: TProps) {
           className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
           onClick={props.onClick}
           onDoubleClick={() => setIssueEditFormVisibility(true)}
+          onMouseEnter={() => setIssueBoxHover(true)}
+          onMouseLeave={() => setIssueBoxHover(false)}
         >
           <div
             className={`issue-box__settings absolute top-3 right-2 ${
@@ -59,14 +62,16 @@ function IssueBox(props: TProps) {
             }`}
             onMouseEnter={(event) => event.stopPropagation()}
           >
-            <Button
-              clickHandler={(event) => {
-                event?.stopPropagation();
-                setIssueContextMenuVisibility(true);
-              }}
-            >
-              <SvgDots className="fill-slate-50 w-6 z-10" />
-            </Button>
+            {issueBoxHover ? (
+              <Button
+                clickHandler={(event) => {
+                  event?.stopPropagation();
+                  setIssueContextMenuVisibility(true);
+                }}
+              >
+                <SvgDots className="fill-slate-50 w-6 z-10" />
+              </Button>
+            ) : null}
             {issueContextMenuVisibility ? (
               <div className="absolute right-0 top-8 z-10">
                 <IssueContextMenu
