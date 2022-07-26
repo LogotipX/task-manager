@@ -30,20 +30,17 @@ export default function TasksContainer(props: TProps) {
           >
             {props.children}
             {provided.placeholder}
-
-            <div
-              className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 xs:visible ${
-                props.children
-                  ? props.containerHover
-                    ? "visible"
-                    : "invisible"
-                  : "visible"
-              }`}
-            >
-              <Button clickHandler={() => props.createIssue(props.droppableId)}>
-                + Create issue
-              </Button>
-            </div>
+            {props.children || props.containerHover ? (
+              <div
+                className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 xs:visible`}
+              >
+                <Button
+                  clickHandler={() => props.createIssue(props.droppableId)}
+                >
+                  + Create issue
+                </Button>
+              </div>
+            ) : null}
           </div>
         )}
       </Droppable>
