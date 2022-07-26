@@ -30,6 +30,7 @@ export default function DraggableTasksContainer(props: Props) {
   }
 
   function changeContainerNameHandler() {
+    setContainerHeaderHover(false);
     setEditContainerName(false);
 
     if (newContainerName.length > 0) {
@@ -58,6 +59,7 @@ export default function DraggableTasksContainer(props: Props) {
             // {...providedContainers.draggableProps}
             {...providedContainers.dragHandleProps}
             onDoubleClick={() => setEditContainerName(true)}
+            className="mb-2"
           >
             {editContainerName ? (
               <div className="container__name flex pb-[2px]">
@@ -73,7 +75,7 @@ export default function DraggableTasksContainer(props: Props) {
               <div
                 onMouseEnter={() => setContainerHeaderHover(true)}
                 onMouseLeave={() => setContainerHeaderHover(false)}
-                className="container__name h-12 flex uppercase py-2"
+                className="container__name h-[46px] flex uppercase py-2"
               >
                 <span className="children-counter self-center px-2 py-1 rounded-sm bg-slate-900">
                   {Children.count(props.children)}

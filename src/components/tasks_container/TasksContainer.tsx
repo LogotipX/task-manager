@@ -24,15 +24,20 @@ export default function TasksContainer(props: TProps) {
       >
         {(provided, snapshot) => (
           <div
-            className={`droppable-container h-[calc(100%-55px)] child:mt-2 rounded-sm`}
+            className={`droppable-container h-[calc(100%-55px)] child:mb-2 last-child:mb-1 rounded-sm`}
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
             {props.children}
             {provided.placeholder}
-            {props.children || props.containerHover ? (
               <div
-                className={`button__wrapper button__container w-full pb-1 mt-2 mb-1 xs:visible`}
+              className={`button__wrapper button__container w-full pb-1 xs:visible ${
+                props.children
+                  ? props.containerHover
+                    ? "visible"
+                    : "invisible"
+                  : "visible"
+              }`}
               >
                 <Button
                   clickHandler={() => props.createIssue(props.droppableId)}
@@ -40,7 +45,6 @@ export default function TasksContainer(props: TProps) {
                   + Create issue
                 </Button>
               </div>
-            ) : null}
           </div>
         )}
       </Droppable>
