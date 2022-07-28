@@ -14,13 +14,13 @@ export default function ContextMenu(props: Props) {
     >
       <div className="settings-container flex flex-col justify-between w-full h-fit">
         <Button clickHandler={props.editIssue}>
-          <span className="text-slate-50">Edit</span>
+          <span className="text-slate-50 w-full">Edit</span>
         </Button>
         <Button clickHandler={props.onCancel}>
-          <span className="text-slate-50">Cancel</span>
+          <span className="text-slate-50 w-full">Cancel</span>
         </Button>
         <Button clickHandler={props.removeIssue}>
-          <span className="text-red-500">Remove issue</span>
+          <span className="text-red-500 w-full">Remove issue</span>
         </Button>
       </div>
     </div>
