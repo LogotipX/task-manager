@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SvgDots from "../../icons/dots-3";
 import Button from "../Button";
 import IssueInputForm from "./IssueInputForm";
-import IssueContextMenu from "./IssueContextMenu";
+import ContextMenu from "../modals/ContextMenu";
 
 import { Issue } from "../../api/types";
 
@@ -74,7 +74,7 @@ function IssueBox(props: TProps) {
             ) : null}
             {issueContextMenuVisibility ? (
               <div className="absolute right-0 top-8 z-10">
-                <IssueContextMenu
+                <ContextMenu
                   editIssue={() => {
                     setIssueEditFormVisibility(true);
                     setIssueContextMenuVisibility(false);

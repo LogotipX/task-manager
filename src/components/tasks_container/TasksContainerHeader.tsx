@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SvgDots from "../../icons/dots-3";
 import Button from "../Button";
-import IssueContextMenu from "../issue/IssueContextMenu";
+import ContextMenu from "../modals/ContextMenu";
 
 type Props = {
   elementsCount?: number;
@@ -40,11 +40,11 @@ export default function TasksContainerHeader(props: Props) {
       </div>
       {contextMenuVisibility ? (
         <div className="absolute right-0 top-8 z-10">
-          <IssueContextMenu
+          <ContextMenu
             editIssue={() => {
               console.log("edit");
             }}
-            onCancel={() => console.log("onCansel")}
+            onCancel={() => setContextMenuVisibility(false)}
             removeIssue={() => console.log("removeIssue")}
           />
         </div>

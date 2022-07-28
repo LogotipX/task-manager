@@ -6,7 +6,7 @@ type Props = {
   editIssue(): void;
 };
 
-export default function IssueContextMenu(props: Props) {
+export default function ContextMenu(props: Props) {
   return (
     <div
       onClick={(event) => event.stopPropagation()}
