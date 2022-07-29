@@ -4,6 +4,10 @@ import TasksContainer from "./TasksContainer";
 import { DropResult } from "react-beautiful-dnd";
 import OneLineInput from "../OneLineInput";
 import TasksContainerHeader from "./TasksContainerHeader";
+// SVG -------------------------------------------------------------
+import ConfirmIcon from "../../icons/ConfirmIcon";
+import Button from "../Button";
+import CancelIcon from "../../icons/CancelIcon";
 
 type Props = {
   className?: string;
@@ -39,6 +43,11 @@ export default function DraggableTasksContainer(props: Props) {
     }
   }
 
+  function cancelChangeContainerName() {
+    setEditContainerName(false);
+    setNewContainerName(props.containerName);
+  }
+
   return (
     <Draggable
       draggableId={`container-${props.droppableId}`}
@@ -69,9 +78,25 @@ export default function DraggableTasksContainer(props: Props) {
                   onFocusOut={() => changeContainerNameHandler()}
                   className="container__name flex text-lg p-2 outline-none"
                 />
+                <div className="reduct-btns absolute top-[52px] right-1 z-10 border-2 border-slate-400 rounded-sm bg-slate-700">
+                  <div className="btn__confirm inline-block">
+                    <Button clickHandler={() => changeContainerNameHandler()}>
+                      <ConfirmIcon className="fill-slate-50 w-6 h-4" />
+                    </Button>
+                  </div>
+                  <div className="btn__cancel inline-block">
+                    <Button clickHandler={() => cancelChangeContainerName()}>
+                      <CancelIcon className="fill-slate-50 w-6 h-4" />
+                    </Button>
+                  </div>
+                </div>
               </div>
             ) : (
-              <TasksContainerHeader elementsCount={Children.count(props.children)} containerName={props.containerName} editBtnClick={() => setEditContainerName(true)} />
+              <TasksContainerHeader
+                elementsCount={Children.count(props.children)}
+                containerName={props.containerName}
+                editBtnClick={() => setEditContainerName(true)}
+              />
             )}
           </div>
           <TasksContainer
