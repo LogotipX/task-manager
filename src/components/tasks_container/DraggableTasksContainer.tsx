@@ -2,12 +2,8 @@ import React, { Children, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import TasksContainer from "./TasksContainer";
 import { DropResult } from "react-beautiful-dnd";
-import OneLineInput from "../OneLineInput";
 import TasksContainerHeader from "./TasksContainerHeader";
 // SVG -------------------------------------------------------------
-import ConfirmIcon from "../../icons/ConfirmIcon";
-import Button from "../Button";
-import CancelIcon from "../../icons/CancelIcon";
 import EditHeaderLine from "./EditHeaderLine";
 
 type Props = {
@@ -23,12 +19,10 @@ type Props = {
 
 export default function DraggableTasksContainer(props: Props) {
   const [containerHover, setContainerHover] = useState(false);
-  // const [containerHeaderHover, setContainerHeaderHover] = useState(false);
   const [editContainerName, setEditContainerName] = useState(false);
   const [newContainerName, setNewContainerName] = useState(props.containerName);
 
   function changeContainerNameHandler() {
-    // setContainerHeaderHover(false);
     setEditContainerName(false);
 
     if (newContainerName.length > 0) {
