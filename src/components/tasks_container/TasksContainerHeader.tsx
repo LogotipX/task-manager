@@ -6,6 +6,7 @@ import ContextMenu from "../modals/ContextMenu";
 type Props = {
   elementsCount?: number;
   containerName: string;
+  editBtnClick?(): void;
 };
 
 export default function TasksContainerHeader(props: Props) {
@@ -39,13 +40,14 @@ export default function TasksContainerHeader(props: Props) {
         ) : null}
       </div>
       {contextMenuVisibility ? (
-        <div className="absolute right-0 top-8 z-10">
+        <div className="absolute right-0 top-8 z-10 w-20">
           <ContextMenu
             editIssue={() => {
-              console.log("edit");
+              if (props.editBtnClick) {
+                props.editBtnClick();
+              }
             }}
             onCancel={() => setContextMenuVisibility(false)}
-            removeIssue={() => console.log("removeIssue")}
           />
         </div>
       ) : null}

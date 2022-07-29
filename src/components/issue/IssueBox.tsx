@@ -69,7 +69,7 @@ function IssueBox(props: TProps) {
                   setIssueContextMenuVisibility(true);
                 }}
               >
-                <SvgDots className="fill-slate-50 w-6 z-10" />
+                <SvgDots className="fill-slate-50 w-6" />
               </Button>
             ) : null}
             {issueContextMenuVisibility ? (

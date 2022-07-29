@@ -71,7 +71,7 @@ export default function DraggableTasksContainer(props: Props) {
                 />
               </div>
             ) : (
-              <TasksContainerHeader elementsCount={Children.count(props.children)} containerName={props.containerName} />
+              <TasksContainerHeader elementsCount={Children.count(props.children)} containerName={props.containerName} editBtnClick={() => setEditContainerName(true)} />
             )}
           </div>
           <TasksContainer
