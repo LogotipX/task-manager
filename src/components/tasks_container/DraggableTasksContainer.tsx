@@ -8,6 +8,7 @@ import TasksContainerHeader from "./TasksContainerHeader";
 import ConfirmIcon from "../../icons/ConfirmIcon";
 import Button from "../Button";
 import CancelIcon from "../../icons/CancelIcon";
+import EditHeaderLine from "./EditHeaderLine";
 
 type Props = {
   className?: string;
@@ -25,12 +26,6 @@ export default function DraggableTasksContainer(props: Props) {
   // const [containerHeaderHover, setContainerHeaderHover] = useState(false);
   const [editContainerName, setEditContainerName] = useState(false);
   const [newContainerName, setNewContainerName] = useState(props.containerName);
-
-  function enterKeyPressHandler(event: React.KeyboardEvent) {
-    if (event.key === "Enter") {
-      changeContainerNameHandler();
-    }
-  }
 
   function changeContainerNameHandler() {
     // setContainerHeaderHover(false);
@@ -71,25 +66,12 @@ export default function DraggableTasksContainer(props: Props) {
           >
             {editContainerName ? (
               <div className="container__name flex pb-[2px]">
-                <OneLineInput
+                <EditHeaderLine
                   value={newContainerName}
-                  setValue={setNewContainerName}
-                  enterKeyPressHandler={enterKeyPressHandler}
-                  onFocusOut={() => changeContainerNameHandler()}
-                  className="container__name flex text-lg p-2 outline-none"
+                  setValue={(inputValue) => setNewContainerName(inputValue)}
+                  onConfirm={() => changeContainerNameHandler()}
+                  onCancel={() => cancelChangeContainerName()}
                 />
-                <div className="reduct-btns absolute top-[52px] right-1 z-10 border-2 border-slate-400 rounded-sm bg-slate-700">
-                  <div className="btn__confirm inline-block">
-                    <Button clickHandler={() => changeContainerNameHandler()}>
-                      <ConfirmIcon className="fill-slate-50 w-6 h-4" />
-                    </Button>
-                  </div>
-                  <div className="btn__cancel inline-block">
-                    <Button clickHandler={() => cancelChangeContainerName()}>
-                      <CancelIcon className="fill-slate-50 w-6 h-4" />
-                    </Button>
-                  </div>
-                </div>
               </div>
             ) : (
               <TasksContainerHeader
