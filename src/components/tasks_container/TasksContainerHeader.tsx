@@ -42,12 +42,13 @@ export default function TasksContainerHeader(props: Props) {
       {contextMenuVisibility ? (
         <div className="absolute right-0 top-8 z-10 w-20">
           <ContextMenu
-            editIssue={() => {
+            onEdit={() => {
               if (props.editBtnClick) {
                 props.editBtnClick();
               }
             }}
             onCancel={() => setContextMenuVisibility(false)}
+            onDelete={() => console.log("delete container")}
           />
         </div>
       ) : null}
