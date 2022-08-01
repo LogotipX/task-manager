@@ -7,6 +7,7 @@ type Props = {
   elementsCount?: number;
   containerName: string;
   editBtnClick?(): void;
+  deleteContainer(): void;
 };
 
 export default function TasksContainerHeader(props: Props) {
@@ -48,7 +49,7 @@ export default function TasksContainerHeader(props: Props) {
               }
             }}
             onCancel={() => setContextMenuVisibility(false)}
-            onDelete={() => console.log("delete container")}
+            onDelete={() => props.deleteContainer()}
           />
         </div>
       ) : null}

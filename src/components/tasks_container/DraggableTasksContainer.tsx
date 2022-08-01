@@ -15,6 +15,7 @@ type Props = {
   containersDragEndHandler?(result: DropResult): void;
   createIssue(containerId: any): any;
   changeContainerName(newContainerName: string): void;
+  deleteContainer(): void;
 };
 
 export default function DraggableTasksContainer(props: Props) {
@@ -72,6 +73,7 @@ export default function DraggableTasksContainer(props: Props) {
                 elementsCount={Children.count(props.children)}
                 containerName={props.containerName}
                 editBtnClick={() => setEditContainerName(true)}
+                deleteContainer={() => props.deleteContainer()}
               />
             )}
           </div>

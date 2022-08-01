@@ -81,7 +81,10 @@ function App() {
   }
 
   function changeContainerName(containerId: number, newName: string) {
-    const changedTasksContainerArr = tasksContainerArr.slice(0, tasksContainerArr.length);
+    const changedTasksContainerArr = tasksContainerArr.slice(
+      0,
+      tasksContainerArr.length
+    );
     changedTasksContainerArr[containerId].taskContainerName = newName;
 
     setTasksContainerArr(changedTasksContainerArr);
@@ -141,6 +144,12 @@ function App() {
     setIssueModalObject({ containerIdx, issueIdx });
   }
 
+  function deleteContainer(containerId: number) {
+    const containerList = tasksContainerArr.slice(0, tasksContainerArr.length);
+    containerList.splice(containerId, 1);
+    setTasksContainerArr(containerList);
+  }
+
   return (
     <div
       className={`App relative h-screen min-h-screen overflow-hidden bg-slate-900 `}
@@ -191,7 +200,12 @@ function App() {
                                 droppableId={droppableIdx}
                                 tasksDragEndHandler={dragEndHandler}
                                 createIssue={createIssueBtn}
-                                changeContainerName={(newName) => changeContainerName(droppableIdx, newName)}
+                                changeContainerName={(newName) =>
+                                  changeContainerName(droppableIdx, newName)
+                                }
+                                deleteContainer={() =>
+                                  deleteContainer(droppableIdx)
+                                }
                               >
                                 {issues.length
                                   ? issues.map((issue, idx) => {
