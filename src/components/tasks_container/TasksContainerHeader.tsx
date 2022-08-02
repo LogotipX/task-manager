@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import SvgDots from "../../icons/dots-3";
 import Button from "../Button";
 import ContextMenu from "../modals/ContextMenu";
@@ -13,28 +13,6 @@ type Props = {
 export default function TasksContainerHeader(props: Props) {
   const [containerHeaderHover, setContainerHeaderHover] = useState(false);
   const [contextMenuVisibility, setContextMenuVisibility] = useState(false);
-  const focusOnContextMenu = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (contextMenuVisibility) {
-      window.addEventListener("click", contextMenuOnBlurCallBack);
-
-      return () => {
-        window.removeEventListener("click", contextMenuOnBlurCallBack);
-      };
-    }
-  }, [contextMenuVisibility]);
-
-  function contextMenuOnBlurCallBack(clickEvent: MouseEvent) {
-    const coords = focusOnContextMenu.current?.getBoundingClientRect();
-
-    if (
-      clickEvent.offsetX !== coords?.left ||
-      clickEvent.offsetY !== coords?.top
-    ) {
-      setContextMenuVisibility(false);
-    }
-  }
 
   return (
     <>
@@ -62,11 +40,9 @@ export default function TasksContainerHeader(props: Props) {
         ) : null}
       </div>
       {contextMenuVisibility ? (
-        <div
-          ref={focusOnContextMenu}
-          className="absolute right-0 top-8 z-10 w-20"
-        >
+        <div className="absolute right-0 top-8 z-10 w-20">
           <ContextMenu
+            onBlur={() => setContextMenuVisibility(false)}
             onEdit={() => {
               if (props.editBtnClick) {
                 props.editBtnClick();

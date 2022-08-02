@@ -1,14 +1,43 @@
+import React, { useEffect, useRef } from "react";
 import Button from "../Button";
 
 type Props = {
   onCancel?(): void;
   onDelete?(): void;
   onEdit?(): void;
+  onBlur?(): void;
 };
 
 export default function ContextMenu(props: Props) {
+  const focusOnContextMenu = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (!props.onBlur) return;
+
+    window.addEventListener("click", contextMenuOnBlurCallBack);
+
+    return () => {
+      window.removeEventListener("click", contextMenuOnBlurCallBack);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function contextMenuOnBlurCallBack(clickEvent: MouseEvent) {
+    if (!props.onBlur) return;
+
+    const coords = focusOnContextMenu.current?.getBoundingClientRect();
+
+    if (
+      clickEvent.offsetX !== coords?.left ||
+      clickEvent.offsetY !== coords?.top
+    ) {
+      props.onBlur();
+    }
+  }
+
   return (
     <div
+      ref={focusOnContextMenu}
       onClick={(event) => event.stopPropagation()}
       className={`issue-context-menu w-full min-w-max h-fit bg-slate-700 border-2 rounded-sm border-slate-400 text-center`}
     >
