@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, MouseEvent } from "react";
 import SvgDots from "../../icons/dots-3";
 import Button from "../Button";
 import IssueInputForm from "./IssueInputForm";
@@ -32,6 +32,38 @@ function IssueBox(props: TProps) {
   const [issueEditFormVisibility, setIssueEditFormVisibility] = useState(false);
   const [issueBoxHover, setIssueBoxHover] = useState(false);
 
+  const contextMenuBtn = useRef<HTMLHeadingElement>(null);
+
+  function onClickHandler(e: MouseEvent) {
+    if (!checkOnClickContextBtn(e)) {
+      props.onClick();
+    }
+  }
+
+  function checkOnClickContextBtn(e: MouseEvent) {
+    const clickCoords = {
+      x: e.clientX,
+      y: e.clientY,
+    };
+
+    const contextMenuBtnCoords =
+      contextMenuBtn?.current?.getBoundingClientRect();
+
+    const contextMenuBtnSize = {
+      width: contextMenuBtn?.current?.offsetWidth || 0,
+      height: contextMenuBtn?.current?.offsetHeight || 0,
+    };
+
+    return (
+      contextMenuBtnCoords?.x !== undefined &&
+      contextMenuBtnCoords?.y !== undefined &&
+      clickCoords.x >= contextMenuBtnCoords?.x &&
+      clickCoords.x <= contextMenuBtnCoords?.x + contextMenuBtnSize.width &&
+      clickCoords.y >= contextMenuBtnCoords?.y &&
+      clickCoords.y <= contextMenuBtnCoords?.y + contextMenuBtnSize.height
+    );
+  }
+
   return (
     <>
       {issueEditFormVisibility ? (
@@ -51,7 +83,7 @@ function IssueBox(props: TProps) {
       ) : (
         <div
           className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
-          onClick={props.onClick}
+          onClick={onClickHandler}
           onDoubleClick={() => setIssueEditFormVisibility(true)}
           onMouseEnter={() => setIssueBoxHover(true)}
           onMouseLeave={() => setIssueBoxHover(false)}
@@ -63,18 +95,21 @@ function IssueBox(props: TProps) {
             onMouseEnter={(event) => event.stopPropagation()}
           >
             {issueBoxHover ? (
-              <Button
-                clickHandler={(event) => {
-                  event?.stopPropagation();
-                  setIssueContextMenuVisibility(true);
-                }}
-              >
-                <SvgDots className="fill-slate-50 w-6" />
-              </Button>
+              <div ref={contextMenuBtn}>
+                <Button
+                  clickHandler={(event) => {
+                    // event?.stopPropagation();
+                    setIssueContextMenuVisibility(true);
+                  }}
+                >
+                  <SvgDots className="fill-slate-50 w-6" />
+                </Button>
+              </div>
             ) : null}
             {issueContextMenuVisibility ? (
               <div className="absolute right-0 top-8 w-24 z-10">
                 <ContextMenu
+                  onBlur={() => setIssueContextMenuVisibility(false)}
                   onEdit={() => {
                     setIssueEditFormVisibility(true);
                     setIssueContextMenuVisibility(false);
