@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, MouseEvent } from "react";
 import SvgDots from "../../icons/dots-3";
 import Button from "../Button";
-import IssueInputForm from "./IssueInputForm";
 import ContextMenu from "../modals/ContextMenu";
 
 import { Issue } from "../../api/types";
@@ -29,7 +28,6 @@ function IssueBox(props: TProps) {
 
   const [issueContextMenuVisibility, setIssueContextMenuVisibility] =
     useState(false);
-  const [issueEditFormVisibility, setIssueEditFormVisibility] = useState(false);
   const [issueBoxHover, setIssueBoxHover] = useState(false);
 
   const contextMenuBtn = useRef<HTMLHeadingElement>(null);
@@ -66,69 +64,52 @@ function IssueBox(props: TProps) {
 
   return (
     <>
-      {issueEditFormVisibility ? (
-        <IssueInputForm
-          getEditedIssue={(editedIssue) => {
-            setIssueEditFormVisibility(false);
-            if (editedIssue !== undefined) {
-              props.editIssue(editedIssue);
-            }
-          }}
-          issue={{
-            type,
-            title,
-            text,
-          }}
-        />
-      ) : (
+      <div
+        className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
+        onClick={onClickHandler}
+        onMouseEnter={() => setIssueBoxHover(true)}
+        onMouseLeave={() => setIssueBoxHover(false)}
+      >
         <div
-          className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
-          onClick={onClickHandler}
-          onDoubleClick={() => setIssueEditFormVisibility(true)}
-          onMouseEnter={() => setIssueBoxHover(true)}
-          onMouseLeave={() => setIssueBoxHover(false)}
+          className={`issue-box__settings absolute top-3 right-2 ${
+            issueContextMenuVisibility ? "bg-slate-800" : null
+          }`}
+          onMouseEnter={(event) => event.stopPropagation()}
         >
-          <div
-            className={`issue-box__settings absolute top-3 right-2 ${
-              issueContextMenuVisibility ? "bg-slate-800" : null
-            }`}
-            onMouseEnter={(event) => event.stopPropagation()}
-          >
-            {issueBoxHover ? (
-              <div ref={contextMenuBtn}>
-                <Button
-                  clickHandler={(event) => {
-                    // event?.stopPropagation();
-                    setIssueContextMenuVisibility(true);
-                  }}
-                >
-                  <SvgDots className="fill-slate-50 w-6" />
-                </Button>
-              </div>
-            ) : null}
-            {issueContextMenuVisibility ? (
-              <div className="absolute right-0 top-8 w-24 z-10">
-                <ContextMenu
-                  onBlur={() => setIssueContextMenuVisibility(false)}
-                  onEdit={() => {
-                    setIssueEditFormVisibility(true);
-                    setIssueContextMenuVisibility(false);
-                  }}
-                  onCancel={() => setIssueContextMenuVisibility(false)}
-                  onDelete={props.removeIssue}
-                />
-              </div>
-            ) : null}
-          </div>
-
-          <div className="issue__type text-slate-300">{type}</div>
-          <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
-            {title}
-          </div>
-          <div className="issue__text text-slate-100">{text}</div>
-          {/* <div className="task__priority">{props.priority}</div> */}
+          {issueBoxHover ? (
+            <div ref={contextMenuBtn}>
+              <Button
+                clickHandler={(event) => {
+                  // event?.stopPropagation();
+                  setIssueContextMenuVisibility(true);
+                }}
+              >
+                <SvgDots className="fill-slate-50 w-6" />
+              </Button>
+            </div>
+          ) : null}
+          {issueContextMenuVisibility ? (
+            <div className="absolute right-0 top-8 w-24 z-10">
+              <ContextMenu
+                onBlur={() => setIssueContextMenuVisibility(false)}
+                onEdit={() => {
+                  props.onClick();
+                  setIssueContextMenuVisibility(false);
+                }}
+                onCancel={() => setIssueContextMenuVisibility(false)}
+                onDelete={props.removeIssue}
+              />
+            </div>
+          ) : null}
         </div>
-      )}
+
+        <div className="issue__type text-slate-300">{type}</div>
+        <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
+          {title}
+        </div>
+        <div className="issue__text text-slate-100">{text}</div>
+        {/* <div className="task__priority">{props.priority}</div> */}
+      </div>
     </>
   );
 }

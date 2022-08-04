@@ -19,7 +19,6 @@ function App() {
   const [tasksContainerArr, setTasksContainerArr] = useState<TasksContainerArr>(
     []
   );
-  const [hasCreateIssueBlock, setHasCreateIssueBlock] = useState(false);
 
   const [issueModalObject, setIssueModalObject] = useState({
     containerIdx: -1,
@@ -91,9 +90,7 @@ function App() {
   }
 
   function createIssueBtn(containerId: number) {
-    if (hasCreateIssueBlock) return;
-
-    setHasCreateIssueBlock(true);
+    // if (hasCreateIssueBlock) return;
 
     const containerArr = Array.from(tasksContainerArr);
     containerArr[containerId].issues.push({
@@ -108,18 +105,21 @@ function App() {
   function addIssueFromCreateForm(
     newIssue: Issue,
     issueIdx: number,
-    containerIdx: number
+    containerIdx: number,
   ) {
-    if (!newIssue.title.length && !newIssue.text.length) return;
-
     const containerArr = Array.from(tasksContainerArr);
     const id = containerIdx;
+
+    if (!newIssue.title.length && !newIssue.text.length) {
+      containerArr[id].issues.pop();
+      setTasksContainerArr(containerArr);
+      return;
+    }
 
     containerArr[id].issues.pop();
     containerArr[id].issues.push(newIssue);
 
     setTasksContainerArr(containerArr);
-    setHasCreateIssueBlock(false);
   }
 
   function editIssue(
@@ -215,13 +215,13 @@ function App() {
                                             key={`${idx}-${issue.type}-${issue.title}`}
                                           >
                                             <IssueInputForm
-                                              getEditedIssue={(editedIssue) =>
+                                              onConfirm={(editedIssue) => {
                                                 addIssueFromCreateForm(
                                                   editedIssue,
                                                   idx,
-                                                  droppableIdx
-                                                )
-                                              }
+                                                  droppableIdx,
+                                                );
+                                              }}
                                               // containerIdx={droppableIdx}
                                               // issueIdx={idx}
                                             />

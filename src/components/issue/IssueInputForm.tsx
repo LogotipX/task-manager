@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Button from "../Button";
 import { Issue } from "../../api/types";
 import OneLineInput from "../OneLineInput";
 
 type Props = {
-  getEditedIssue?(editedIssue: Issue): void;
+  onConfirm(editedIssue: Issue): void;
   issue?: Issue;
   canBeEmpty?: boolean;
 };
 
 export default function IssueInputForm(props: Props) {
+  const issueBoxEditForm = useRef<HTMLHeadingElement>(null);
+
   const [type, setType] = useState("Task");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -20,6 +22,15 @@ export default function IssueInputForm(props: Props) {
     text,
     // priority: "some priority",
   };
+
+  useEffect(() => {
+    window.addEventListener("click", onBlurHandler);
+
+    return () => {
+      window.removeEventListener("click", onBlurHandler);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editedIssue]);
 
   useEffect(() => {
     if (props.issue) {
@@ -36,16 +47,52 @@ export default function IssueInputForm(props: Props) {
   }
 
   function submitHandler() {
-    if (props.getEditedIssue) {
-      props.getEditedIssue(editedIssue);
+    props.onConfirm(editedIssue);
+  }
+
+  function onBlurHandler(e: MouseEvent) {
+    if (!isClickOnIssueBoxEditForm(e)) {
+      submitHandler();
     }
   }
 
+  function isClickOnIssueBoxEditForm(e: MouseEvent) {
+    const clickCoords = {
+      x: e.clientX,
+      y: e.clientY,
+    };
+
+    const issueBoxEditFormCoords =
+      issueBoxEditForm.current?.getBoundingClientRect();
+
+    if (!issueBoxEditFormCoords) return;
+
+    const issueBoxEditFormSize = {
+      width: issueBoxEditForm?.current?.offsetWidth || 0,
+      height: issueBoxEditForm?.current?.offsetHeight || 0,
+    };
+
+    return (
+      clickCoords.x >= issueBoxEditFormCoords?.x &&
+      clickCoords.x <= issueBoxEditFormCoords?.x + issueBoxEditFormSize.width &&
+      clickCoords.y >= issueBoxEditFormCoords?.y &&
+      clickCoords.y <= issueBoxEditFormCoords?.y + issueBoxEditFormSize.height
+    );
+  }
+
   return (
-    <div className={"issue-box rounded-sm bg-slate-700 px-2 py-3"}>
+    <div
+      ref={issueBoxEditForm}
+      onClick={(e) => e.stopPropagation()}
+      className={"issue-box rounded-sm bg-slate-700 px-2 py-3"}
+    >
       <div className="issue__type text-slate-300">Type</div>
       <div className="task__title pt-1 font-bold text-slate-100 text-base">
-        <OneLineInput value={title} setValue={setTitle} enterKeyPressHandler={keyPressHandler} />
+        <OneLineInput
+          value={title}
+          setValue={setTitle}
+          enterKeyPressHandler={keyPressHandler}
+        />
       </div>
       <div className="task__text text-slate-100 mt-2">
         <textarea
@@ -60,7 +107,7 @@ export default function IssueInputForm(props: Props) {
         />
       </div>
       <div className="button__wrapper mt-1">
-        <Button clickHandler={submitHandler}>Confirm</Button>
+        <Button clickHandler={() => submitHandler()}>Confirm</Button>
       </div>
       {/* <div className="task__priority">{props.priority}</div> */}
     </div>
