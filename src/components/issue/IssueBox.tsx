@@ -67,7 +67,7 @@ function IssueBox(props: TProps) {
         onMouseLeave={() => setIssueBoxHover(false)}
       >
         {checked ? (
-          <div className="checked-issue-wrapper absolute top-0 left-0 w-full h-full bg-slate-500 opacity-80"></div>
+          <div className="checked-issue-wrapper absolute top-0 left-0 w-full h-full bg-slate-500 opacity-70"></div>
         ) : null}
         <div
           className={`issue-box__settings absolute top-3 right-2 ${
@@ -75,7 +75,7 @@ function IssueBox(props: TProps) {
           }`}
           onMouseEnter={(event) => event.stopPropagation()}
         >
-          {issueBoxHover || true ? (
+          {issueBoxHover ? (
             <div ref={contextMenuBtn}>
               <Button
                 clickHandler={(event) => {
