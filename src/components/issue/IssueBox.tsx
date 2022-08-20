@@ -61,7 +61,7 @@ function IssueBox(props: TProps) {
   return (
     <>
       <div
-        className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
+        className={`issue-box relative rounded-sm overflow-hidden bg-slate-700 px-2 py-3 hover:bg-slate-500`}
         onClick={onClickHandler}
         onMouseEnter={() => setIssueBoxHover(true)}
         onMouseLeave={() => setIssueBoxHover(false)}
@@ -75,7 +75,7 @@ function IssueBox(props: TProps) {
           }`}
           onMouseEnter={(event) => event.stopPropagation()}
         >
-          {issueBoxHover ? (
+          {issueBoxHover || true ? (
             <div ref={contextMenuBtn}>
               <Button
                 clickHandler={(event) => {
@@ -104,16 +104,22 @@ function IssueBox(props: TProps) {
 
         <div
           ref={issueCheckedInput}
-          className="issue__checked inline-block relative align-middle z-10"
+          className="issue__checked inline-block relative w-5 h-5 mr-1 align-middle z-10"
         >
           <input
-            className="w-5 h-5 mr-1 border-2 border-slate-400"
+            className={`w-full h-full cursor-pointer ${
+              // !checked ? "appearance-none border-2 border-slate-400 bg-slate-600" : ""
+              // !checked ? "appearance-none border-2 border-slate-600 bg-slate-400" : ""
+              // !checked ? "appearance-none bg-slate-400" : ""
+              // !checked ? "appearance-none bg-slate-600" : ""
+              !checked ? "appearance-none border-2 border-slate-700 bg-slate-800" : ""
+            }`}
             type="checkbox"
             checked={checked}
             onChange={() => setChecked(!checked)}
           />
         </div>
-        <div className="issue__type text-slate-300 inline-block">{type}</div>
+        <div className="issue__type text-slate-300 inline-block align-middle">{type}</div>
         <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
           {title}
         </div>
