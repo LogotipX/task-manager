@@ -4,62 +4,58 @@ import Button from "../Button";
 import ContextMenu from "../modals/ContextMenu";
 
 import { Issue } from "../../api/types";
+import { checkOnClickOverlap } from "../../functions/functions";
 
 type TProps = {
-  type: string;
-  title: string;
-  text: string;
-  // priority: string;
+  issue: Issue;
   editIssue(editedIssue: Issue): void;
   removeIssue(): void;
   onClick(): void;
 };
 
 function IssueBox(props: TProps) {
-  const [title, setTitle] = useState(props.title);
-  const [text, setText] = useState(props.text);
-  const [type, setType] = useState(props.type);
+  const [type, setType] = useState(props.issue.type);
+  const [title, setTitle] = useState(props.issue.title);
+  const [text, setText] = useState(props.issue.text);
+  const [checked, setChecked] = useState(props.issue.checked);
 
   useEffect(() => {
-    setType(props.type);
-    setTitle(props.title);
-    setText(props.text);
+    setType(props.issue.type);
+    setTitle(props.issue.title);
+    setText(props.issue.text);
+    setChecked(props.issue.checked);
   }, [props]);
+
+  useEffect(() => {
+    const editedIssue = {
+      type,
+      title,
+      text,
+      checked,
+    };
+    props.editIssue(editedIssue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checked]);
 
   const [issueContextMenuVisibility, setIssueContextMenuVisibility] =
     useState(false);
   const [issueBoxHover, setIssueBoxHover] = useState(false);
 
+  const issueCheckedInput = useRef<HTMLHeadingElement>(null);
   const contextMenuBtn = useRef<HTMLHeadingElement>(null);
 
   function onClickHandler(e: MouseEvent) {
-    if (!checkOnClickContextBtn(e)) {
+    if (!checkOnClickContextBtn(e) && !checkOnClickChecked(e)) {
       props.onClick();
     }
   }
 
+  function checkOnClickChecked(e: MouseEvent) {
+    return checkOnClickOverlap(e, issueCheckedInput);
+  }
+
   function checkOnClickContextBtn(e: MouseEvent) {
-    const clickCoords = {
-      x: e.clientX,
-      y: e.clientY,
-    };
-
-    const contextMenuBtnCoords =
-      contextMenuBtn?.current?.getBoundingClientRect();
-
-    const contextMenuBtnSize = {
-      width: contextMenuBtn?.current?.offsetWidth || 0,
-      height: contextMenuBtn?.current?.offsetHeight || 0,
-    };
-
-    return (
-      contextMenuBtnCoords?.x !== undefined &&
-      contextMenuBtnCoords?.y !== undefined &&
-      clickCoords.x >= contextMenuBtnCoords?.x &&
-      clickCoords.x <= contextMenuBtnCoords?.x + contextMenuBtnSize.width &&
-      clickCoords.y >= contextMenuBtnCoords?.y &&
-      clickCoords.y <= contextMenuBtnCoords?.y + contextMenuBtnSize.height
-    );
+    return checkOnClickOverlap(e, contextMenuBtn);
   }
 
   return (
@@ -70,6 +66,9 @@ function IssueBox(props: TProps) {
         onMouseEnter={() => setIssueBoxHover(true)}
         onMouseLeave={() => setIssueBoxHover(false)}
       >
+        {checked ? (
+          <div className="checked-issue-wrapper absolute top-0 left-0 w-full h-full bg-slate-500 opacity-80"></div>
+        ) : null}
         <div
           className={`issue-box__settings absolute top-3 right-2 ${
             issueContextMenuVisibility ? "bg-slate-800" : null
@@ -103,7 +102,18 @@ function IssueBox(props: TProps) {
           ) : null}
         </div>
 
-        <div className="issue__type text-slate-300">{type}</div>
+        <div
+          ref={issueCheckedInput}
+          className="issue__checked inline-block relative align-middle z-10"
+        >
+          <input
+            className="w-5 h-5 mr-1 border-2 border-slate-400"
+            type="checkbox"
+            checked={checked}
+            onChange={() => setChecked(!checked)}
+          />
+        </div>
+        <div className="issue__type text-slate-300 inline-block">{type}</div>
         <div className="issue__title pt-1 font-bold text-slate-100 text-base overflow-x-hidden overflow-ellipsis">
           {title}
         </div>

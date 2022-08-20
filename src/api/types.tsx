@@ -2,6 +2,7 @@ export type Issue = {
   type: string;
   title: string;
   text: string;
+  checked: boolean;
   isFormCreate?: boolean;
 };
 

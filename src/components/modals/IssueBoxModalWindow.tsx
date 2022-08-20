@@ -17,6 +17,7 @@ type Props = {
 export default function IssueBoxModalWIndow(props: Props) {
   const [title, setTitle] = useState(props.issue.title);
   const [text, setText] = useState(props.issue.text);
+  const [checked] = useState(props.issue.checked);
   const [commentText, setCommentText] = useState("");
 
   const [isReductTitle, setIsReductTitle] = useState(false);
@@ -50,7 +51,7 @@ export default function IssueBoxModalWIndow(props: Props) {
   }
 
   function closeModal(event?: React.MouseEvent) {
-    if (event) {
+    if (event) {  // if Mouse Click
       event.stopPropagation();
       if (title.length === 0 && text.length === 0) {
         return;
@@ -59,16 +60,18 @@ export default function IssueBoxModalWIndow(props: Props) {
       if (event.target === event.currentTarget) {
         props.getUpdatedIssue(props.containerIdx, props.issueIdx, {
           type: "Task",
-          title,
-          text,
+          title: title.trim(),
+          text: text.trim(),
+          checked: checked,
         });
         props.closeModal();
       }
-    } else {
+    } else {  // if tap 'Esc' key
       props.getUpdatedIssue(props.containerIdx, props.issueIdx, {
         type: "Task",
         title: title.trim(),
         text: text.trim(),
+        checked: checked,
       });
       props.closeModal();
     }

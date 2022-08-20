@@ -15,11 +15,13 @@ export default function IssueInputForm(props: Props) {
   const [type, setType] = useState("Task");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [checked, setChecked] = useState(false);
 
   const editedIssue: Issue = {
     type,
     title,
     text,
+    checked,
     // priority: "some priority",
   };
 
@@ -37,6 +39,7 @@ export default function IssueInputForm(props: Props) {
       setType(props.issue.type);
       setTitle(props.issue.title);
       setText(props.issue.text);
+      setChecked(props.issue.checked);
     }
   }, [props.issue]);
 

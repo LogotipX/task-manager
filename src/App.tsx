@@ -93,12 +93,14 @@ function App() {
     // if (hasCreateIssueBlock) return;
 
     const containerArr = Array.from(tasksContainerArr);
-    containerArr[containerId].issues.push({
+    const formCreate = {
       type: "",
       title: "",
       text: "",
+      checked: false,
       isFormCreate: true,
-    });
+    }
+    containerArr[containerId].issues.push(formCreate);
     setTimeout(() => setTasksContainerArr(containerArr), 0);
   }
 

@@ -1,19 +1,12 @@
-type issueArr = {
-  taskContainerName: string;
-  issues: {
-    type: string;
-    title: string;
-    text: string;
-  }[];
-}[];
+import { TasksContainerArr } from "./types";
 
-const getIssues: Promise<issueArr> = new Promise((resolve, reject): void => {
+const getIssues: Promise<TasksContainerArr> = new Promise((resolve, reject): void => {
   setTimeout(() => {
-    resolve(issueArrFromApi);
+    resolve(TasksContainersFromApi);
   }, 850);
 });
 
-const issueArrFromApi: issueArr = [
+const TasksContainersFromApi: TasksContainerArr = [
   {
     taskContainerName: "to do",
     issues: [
@@ -21,24 +14,28 @@ const issueArrFromApi: issueArr = [
         type: "Task",
         title: "IssueBox1",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
       {
         type: "Task",
         title: "IssueBox2",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
       {
         type: "Task",
         title: "IssueBox3",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
       // {
       //   type: "Task",
       //   title: "IssueBox4",
       //   text: "Refactor IssueBox component: need add functional and interpase",
+      // checked: false,
       //   // priority: "some priority",
       // },
     ],
@@ -50,18 +47,21 @@ const issueArrFromApi: issueArr = [
         type: "Task",
         title: "IssueBox1",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
       {
         type: "Task",
         title: "IssueBox2",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
       {
         type: "Task",
         title: "IssueBox3",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
     ],
@@ -73,18 +73,21 @@ const issueArrFromApi: issueArr = [
         type: "Task",
         title: "IssueBox1",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
       {
         type: "Task",
         title: "IssueBox2",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
       {
         type: "Task",
         title: "IssueBox3",
         text: "Refactor IssueBox component: need add functional and interpase",
+        checked: false,
         // priority: "some priority",
       },
     ],

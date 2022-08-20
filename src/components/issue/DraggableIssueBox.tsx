@@ -33,9 +33,7 @@ export default function DraggableIssueBox(props: TProps) {
           {...provided.dragHandleProps}
         >
           <IssueBox
-            type={props.issue.type}
-            title={props.issue.title}
-            text={props.issue.text}
+            issue={props.issue}
             removeIssue={removeIssue}
             editIssue={editIssue}
             onClick={props.onClick}
