@@ -61,13 +61,13 @@ function IssueBox(props: TProps) {
   return (
     <>
       <div
-        className={`issue-box relative rounded-sm overflow-hidden bg-slate-700 px-2 py-3 hover:bg-slate-500`}
+        className={`issue-box relative rounded-sm bg-slate-700 px-2 py-3 hover:bg-slate-500`}
         onClick={onClickHandler}
         onMouseEnter={() => setIssueBoxHover(true)}
         onMouseLeave={() => setIssueBoxHover(false)}
       >
         {checked ? (
-          <div className="checked-issue-wrapper absolute top-0 left-0 w-full h-full bg-slate-500 opacity-70"></div>
+          <div className="checked-issue-wrapper absolute rounded-sm top-0 left-0 w-full h-full bg-slate-500 opacity-70"></div>
         ) : null}
         <div
           className={`issue-box__settings absolute top-3 right-2 ${
