@@ -75,7 +75,7 @@ function App() {
   function createContainer() {
     setTasksContainerArr([
       ...tasksContainerArr,
-      { taskContainerName: "new container", issues: [] },
+      { owner: "", taskContainerName: "new container", issues: [] },
     ]);
   }
 
@@ -94,12 +94,13 @@ function App() {
 
     const containerArr = Array.from(tasksContainerArr);
     const formCreate = {
+      owner: "",
       type: "",
       title: "",
       text: "",
       checked: false,
       isFormCreate: true,
-    }
+    };
     containerArr[containerId].issues.push(formCreate);
     setTimeout(() => setTasksContainerArr(containerArr), 0);
   }
@@ -107,7 +108,7 @@ function App() {
   function addIssueFromCreateForm(
     newIssue: Issue,
     issueIdx: number,
-    containerIdx: number,
+    containerIdx: number
   ) {
     const containerArr = Array.from(tasksContainerArr);
     const id = containerIdx;
@@ -221,7 +222,7 @@ function App() {
                                                 addIssueFromCreateForm(
                                                   editedIssue,
                                                   idx,
-                                                  droppableIdx,
+                                                  droppableIdx
                                                 );
                                               }}
                                               // containerIdx={droppableIdx}

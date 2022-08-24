@@ -12,12 +12,14 @@ type Props = {
 export default function IssueInputForm(props: Props) {
   const issueBoxEditForm = useRef<HTMLHeadingElement>(null);
 
+  const [owner, setOwner] = useState("");
   const [type, setType] = useState("Task");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [checked, setChecked] = useState(false);
 
   const editedIssue: Issue = {
+    owner,
     type,
     title,
     text,
@@ -36,6 +38,7 @@ export default function IssueInputForm(props: Props) {
 
   useEffect(() => {
     if (props.issue) {
+      setOwner(props.issue.owner);
       setType(props.issue.type);
       setTitle(props.issue.title);
       setText(props.issue.text);

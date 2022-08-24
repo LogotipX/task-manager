@@ -14,6 +14,7 @@ type TProps = {
 };
 
 function IssueBox(props: TProps) {
+  const [owner] = useState(props.issue.owner);
   const [type, setType] = useState(props.issue.type);
   const [title, setTitle] = useState(props.issue.title);
   const [text, setText] = useState(props.issue.text);
@@ -28,6 +29,7 @@ function IssueBox(props: TProps) {
 
   useEffect(() => {
     const editedIssue = {
+      owner,
       type,
       title,
       text,

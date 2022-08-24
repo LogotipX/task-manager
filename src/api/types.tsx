@@ -1,4 +1,6 @@
 export type Issue = {
+  owner: string;
+
   type: string;
   title: string;
   text: string;
@@ -9,6 +11,8 @@ export type Issue = {
 export type IssueArr = Issue[];
 
 export type TasksContainerArr = {
+  owner: string;
+
   taskContainerName: string;
   issues: IssueArr;
 }[];
